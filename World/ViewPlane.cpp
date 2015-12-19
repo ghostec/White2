@@ -20,3 +20,9 @@ void ViewPlane::set_gamma(float _gamma) {
   this->gamma = _gamma;
   this->inv_gamma = 1.0f/_gamma;
 }
+
+void ViewPlane::set_sampler(std::unique_ptr<Sampler> sp)
+{
+  num_samples = sp->get_num_samples();
+  sampler_ptr = std::move(sp);
+}

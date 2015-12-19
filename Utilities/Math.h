@@ -1,10 +1,14 @@
-#ifndef __MATH__
-#define __MATH__
+#ifndef __WHITE_MATH__
+#define __WHITE_MATH__
 
 #include <stdlib.h>
 #include "Constants.h"
 
-float rand_float() {
+inline int rand_int() {
+  return rand();
+}
+
+inline float rand_float() {
   return static_cast<float>(rand() * invRAND_MAX);
 }
 
