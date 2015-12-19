@@ -3,6 +3,7 @@ project(Samplers)
 set(SamplersFiles
   Sampler.cpp Sampler.h
   Jittered.cpp Jittered.h
+  Regular.cpp Regular.h
 )
 
 add_library(Samplers ${SamplersFiles})

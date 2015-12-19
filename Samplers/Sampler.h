@@ -19,7 +19,7 @@ class Sampler {
     int num_samples, num_sets;
     std::vector<Point2D> samples;
     std::vector<int> shuffled_indices;
-    std::size_t count;
+    int count;
     int jump;
 };
 

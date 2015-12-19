@@ -17,7 +17,7 @@ class ViewPlane {
     void set_pixel_size(float _s);
     void set_gamma(float _gamma);
     void set_sampler(std::unique_ptr<Sampler> sp);
-    // set_samples(const int num_samples);  
+    void set_samples(const int num_samples);  
 };
 
 #endif

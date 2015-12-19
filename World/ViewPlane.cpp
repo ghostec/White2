@@ -1,3 +1,5 @@
+#include "Samplers/Jittered.h"
+#include "Samplers/Regular.h"
 #include "ViewPlane.h"
 
 void ViewPlane::set_num_samples(int _num_samples) {
@@ -25,4 +27,14 @@ void ViewPlane::set_sampler(std::unique_ptr<Sampler> sp)
 {
   num_samples = sp->get_num_samples();
   sampler_ptr = std::move(sp);
+}
+
+void ViewPlane::set_samples(const int num_samples)
+{
+  if(num_samples > 1) {
+    sampler_ptr = std::unique_ptr<Jittered>(new Jittered(num_samples));
+  }
+  else {
+    sampler_ptr = std::unique_ptr<Regular>(new Regular(1));
+  }
 }
