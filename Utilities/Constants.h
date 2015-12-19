@@ -13,11 +13,12 @@ const double 	invTWO_PI = 0.1591549430918953358;
 
 const double kEpsilon = 0.0001;
 const double kMAX_DOUBLE = std::numeric_limits<double>::max();
+const float kMAX_FLOAT = std::numeric_limits<float>::max();
 
 const RGBColor black(0.0);
 const RGBColor white(1.0);
 const RGBColor red(1.0, 0.0, 0.0);
 
-const float invRAND_MAX = 1.0 / (float)RAND_MAX;
+const float invRAND_MAX = 1.0 / static_cast<float>(RAND_MAX);
 
 #endif

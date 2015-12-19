@@ -3,25 +3,17 @@
 
 const double Sphere::kEpsilon = 0.001;
 
-Sphere::Sphere(void)
-	: GeometricObject(), center(0.0), radius(1.0)
-{}
+Sphere::Sphere(void) : GeometricObject(), center(0.0), radius(1.0) {}
 
-Sphere::Sphere(Point3D c, double r)
-	: GeometricObject(), center(c), radius(r)
-{}
+Sphere::Sphere(Point3D c, double r) : GeometricObject(), center(c), radius(r) {}
 
-Sphere*
-Sphere::clone(void) const {
+Sphere* Sphere::clone(void) const {
 	return (new Sphere(*this));
 }
 
-Sphere::Sphere(const Sphere& sphere)
-	: GeometricObject(sphere), center(sphere.center), radius(sphere.radius)
-{}
+Sphere::Sphere(const Sphere& sphere) : GeometricObject(sphere), center(sphere.center), radius(sphere.radius) {}
 
-Sphere&
-Sphere::operator= (const Sphere& rhs)
+Sphere& Sphere::operator= (const Sphere& rhs)
 {
 	if (this == &rhs)
 		return (*this);
@@ -36,8 +28,7 @@ Sphere::operator= (const Sphere& rhs)
 
 Sphere::~Sphere(void) {}
 
-bool
-Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
+bool Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 	double t;
 	Vector3D temp = ray.o - center;
 	double a = ray.d * ray.d;

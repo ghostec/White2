@@ -1,22 +1,23 @@
 #include <algorithm>
 #include <cstdio>
+#include <iostream>
 #include "Utilities/Vector3D.h"
 #include "Utilities/Point3D.h"
+#include "Utilities/Point2D.h"
 #include "Utilities/Normal.h"
 #include "Utilities/Ray.h"
+#include "Utilities/Math.h"
 #include "Tracers/MultipleObjects.h"
 #include "World.h"
 
-World::World(void)
-	: background_color(black), tracer_ptr(nullptr)
-{}
+World::World(void) : background_color(black), tracer_ptr(nullptr) {}
 
-void
-World::build(void) {
+void World::build(void) {
   vp.set_hres(200);
   vp.set_vres(200);
   vp.set_pixel_size(1);
   vp.set_gamma(1.0);
+  vp.set_num_samples(25);
 
   canvas.resize(200*200);
 
@@ -34,21 +35,29 @@ World::build(void) {
 	add_object(sphere_ptr);
 }
 
-void
-World::render_scene(void) {
+void World::render_scene(void) {
   RGBColor pixel_color;
   Ray ray;
+  auto n = static_cast<int>(std::sqrt(static_cast<float>(vp.num_samples)));
   double zw = 100.0;
-  double x, y;
+  Point2D pp;
 
   ray.d = Vector3D(0, 0, -1);
 
+  std::cout << n << std::endl;
+
   for(int r = 0; r < vp.vres; r++) {
     for(int c = 0; c < vp.hres; c++) {
-      x = vp.s * (c - 0.5 * (vp.hres - 1.0));
-      y = vp.s * (r - 0.5 * (vp.vres - 1.0));
-      ray.o = Point3D(x, y, zw);
-      pixel_color = tracer_ptr->trace_ray(ray);
+      pixel_color = black;
+      for(int p = 0; p < n; p++) {
+        for(int q = 0; q < n; q++) {
+          pp.x = vp.s * (c - 0.5 * vp.hres + (q + rand_float()) / n);
+          pp.y = vp.s * (r - 0.5 * vp.vres + (p + rand_float()) / n);
+          ray.o = Point3D(pp.x, pp.y, zw);
+          pixel_color += tracer_ptr->trace_ray(ray);
+        }
+      }
+      pixel_color /= vp.num_samples;
       canvas[r*vp.vres + c] = pixel_color;
     }
   }
@@ -58,21 +67,18 @@ World::render_scene(void) {
 inline double clamp(double x){ return x<0 ? 0 : x>1 ? 1 : x; }
 inline int toInt(double x){ return int(pow(clamp(x),1/2.2)*255+.5); }
 
-void
-World::save_image() {
-  FILE *f = fopen("image.ppm", "w");         // Write image to PPM file.
+void World::save_image() {
+  FILE *f = fopen("image3.ppm", "w");
   fprintf(f, "P3\n%d %d\n%d\n", vp.hres, vp.vres, 255);
   for(int i = vp.vres * vp.vres - 1; i >= 0; i--)
   fprintf(f,"%d %d %d ", toInt(canvas[i].r), toInt(canvas[i].g), toInt(canvas[i].b));
 }
 
-inline void
-World::add_object(GeometricObject* object_ptr) {
+inline void World::add_object(GeometricObject* object_ptr) {
 	objects.push_back(object_ptr);
 }
 
-ShadeRec
-World::hit_bare_bones_objects(const Ray& ray) {
+ShadeRec World::hit_bare_bones_objects(const Ray& ray) {
 	ShadeRec sr(*this);
 	double t, tmin = kMAX_DOUBLE;
 	int num_objects = objects.size();
