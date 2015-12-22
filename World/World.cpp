@@ -14,13 +14,13 @@ World::World(void) : background_color(black), tracer_ptr(nullptr) {}
 
 void World::build(void) {
   int num_samples = 25;
-  vp.set_hres(200);
-  vp.set_vres(200);
+  vp.set_hres(400);
+  vp.set_vres(400);
   vp.set_pixel_size(1);
   vp.set_gamma(1.0);
   vp.set_sampler(std::unique_ptr<Jittered>(new Jittered(num_samples)));
 
-  canvas.resize(200*200);
+  canvas.resize(400*400);
 
   background_color = black;
   tracer_ptr = std::unique_ptr<Tracer>(new MultipleObjects(this));
@@ -53,6 +53,36 @@ void World::render_scene(void) {
         pp.x = vp.s * (c - 0.5 * vp.hres + sp.x);
         pp.y = vp.s * (r - 0.5 * vp.vres + sp.y);
         ray.o = Point3D(pp.x, pp.y, zw);
+        pixel_color += tracer_ptr->trace_ray(ray);
+      }
+      pixel_color /= vp.num_samples;
+      canvas[r*vp.vres + c] = pixel_color;
+    }
+  }
+  save_image();
+}
+
+void World::render_perspective(void)
+{
+  RGBColor pixel_color;
+  Ray ray;
+  Point2D sp;
+  Point2D pp;
+  float d, eye;
+  d = 120;
+  eye = 110;
+
+  ray.o = Point3D(0, 0, eye);
+
+  for(int r = 0; r < vp.vres; r++) {
+    for(int c = 0; c < vp.hres; c++) {
+      pixel_color = black;
+      for(int j = 0; j < vp.num_samples; j++) {
+        sp = vp.sampler_ptr->sample_unit_square();
+        pp.x = vp.s * (c - 0.5 * vp.hres + sp.x);
+        pp.y = vp.s * (r - 0.5 * vp.vres + sp.y);
+        ray.d = Vector3D(pp.x, pp.y, -d);
+        ray.d.normalize();
         pixel_color += tracer_ptr->trace_ray(ray);
       }
       pixel_color /= vp.num_samples;

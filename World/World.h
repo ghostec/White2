@@ -19,6 +19,7 @@ class World {
     World(void);
     void build(void);
     void render_scene(void);
+    void render_perspective(void);
     void save_image();
     void add_object(GeometricObject* object_ptr);
     ShadeRec hit_bare_bones_objects(const Ray& ray);

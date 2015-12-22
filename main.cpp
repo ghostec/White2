@@ -4,6 +4,6 @@
 int main() {
   World w;
   w.build();
-  w.render_scene();
+  w.render_perspective();
   return 0;
 }
