@@ -2,6 +2,16 @@
 #include "Samplers/Regular.h"
 #include "ViewPlane.h"
 
+inline double clamp(double x) { return x<0 ? 0 : x>1 ? 1 : x; }
+inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
+
+void ViewPlane::save_image() {
+  FILE *f = fopen("image4.ppm", "w");
+  fprintf(f, "P3\n%d %d\n%d\n", hres, vres, 255);
+  for(int i = vres * vres - 1; i >= 0; i--)
+    fprintf(f, "%d %d %d ", toInt(canvas[i].r), toInt(canvas[i].g), toInt(canvas[i].b));
+}
+
 void ViewPlane::set_num_samples(int _num_samples) {
   this->num_samples = _num_samples;
 }

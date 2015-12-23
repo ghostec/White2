@@ -2,7 +2,9 @@
 #define __VIEW_PLANE__
 
 #include <memory>
+#include <vector>
 #include "Samplers/Sampler.h"
+#include "Utilities/RGBColor.h"
 
 class ViewPlane {
   public:
@@ -10,6 +12,7 @@ class ViewPlane {
     float s, gamma, inv_gamma;
     int num_samples;
     std::unique_ptr<Sampler> sampler_ptr;
+    std::vector<RGBColor> canvas;
 
     void set_num_samples(int _num_samples);
     void set_hres(int _hres);
@@ -18,6 +21,7 @@ class ViewPlane {
     void set_gamma(float _gamma);
     void set_sampler(std::unique_ptr<Sampler> sp);
     void set_samples(const int num_samples);  
+    void save_image();
 };
 
 #endif

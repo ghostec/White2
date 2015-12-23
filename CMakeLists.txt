@@ -8,10 +8,11 @@ add_subdirectory(Tracers)
 add_subdirectory(GeometricObjects)
 add_subdirectory(World)
 add_subdirectory(Samplers)
+add_subdirectory(Cameras)
 
 add_executable(White main.cpp)
 
-set(LIBRARIES White Utilities Tracers GeometricObjects World Samplers)
+set(LIBRARIES White Utilities Tracers GeometricObjects World Samplers Cameras)
 
 target_link_libraries(${LIBRARIES})
 
