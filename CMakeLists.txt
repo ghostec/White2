@@ -12,8 +12,10 @@ add_subdirectory(Cameras)
 
 add_executable(White main.cpp)
 
-set(LIBRARIES White Utilities Tracers GeometricObjects World Samplers Cameras)
+set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\msvc2012\\")
+find_package(Qt5Widgets)
 
-target_link_libraries(${LIBRARIES})
+set(LIBRARIES Utilities Tracers GeometricObjects World Samplers Cameras)
+target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
 
-set_property(TARGET ${LIBRARIES} PROPERTY CXX_STANDARD 11)
+set_property(TARGET White ${LIBRARIES} PROPERTY CXX_STANDARD 11)

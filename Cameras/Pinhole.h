@@ -7,8 +7,8 @@
 
 class Pinhole : public Camera {
   private:
-    
   public:
+    Pinhole(MessageQueue<MessagePixel>& _mq);
     float d, zoom;
     Vector3D ray_direction(const Point2D& p);
     virtual void render_scene(World& w);

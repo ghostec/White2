@@ -10,8 +10,9 @@ class Camera {
     Point3D eye, lookat;
     Vector3D up, u, v, w;
     float exposure_time;
+    MessageQueue<MessagePixel>& mq;
 	public:
-    Camera();
+    Camera(MessageQueue<MessagePixel>& _mq);
     void compute_uvw();
     virtual void render_scene(World& w) = 0;
     const Point3D get_eye() const;

@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera() {}
+Camera::Camera(MessageQueue<MessagePixel>& _mq) : mq(_mq) {}
 
 void Camera::compute_uvw()
 {

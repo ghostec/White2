@@ -19,19 +19,22 @@ void Pinhole::render_scene(World& w)
         pp.x = w.vp.s * (c - 0.5 * w.vp.hres + sp.x);
         pp.y = w.vp.s * (r - 0.5 * w.vp.vres + sp.y);
         ray.d = ray_direction(pp);
-        //std::cout << ray.d.x << " " << ray.d.y << " " << ray.d.z << std::endl;
         pixel_color += w.tracer_ptr->trace_ray(ray);
       }
       pixel_color /= w.vp.num_samples;
-      w.vp.canvas[r*w.vp.vres + c] = pixel_color;
+      //w.vp.canvas[r*w.vp.vres + c] = pixel_color;
+      mq.push({ MessagePixel_e::Pixel, c, r, pixel_color });
     }
   }
-  w.vp.save_image();
+  mq.push({ MessagePixel_e::Done, 0, 0, black });
+  std::cout << "Pinhole: over!\n";
+  //w.vp.save_image();
 }
+
+Pinhole::Pinhole(MessageQueue<MessagePixel>& _mq) : Camera(_mq) {}
 
 Vector3D Pinhole::ray_direction(const Point2D & p)
 {
-  //std::cout << u.x << " " << u.y << std::endl;
   Vector3D dir = p.x * u + p.y * v - d * w;
   dir.normalize();
   return dir;
