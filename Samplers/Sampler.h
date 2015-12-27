@@ -2,6 +2,8 @@
 #define __SAMPLERS__
 
 #include <vector>
+#include <mutex>
+#include <condition_variable>
 #include "Utilities/Point2D.h"
 
 class Sampler {
@@ -21,6 +23,8 @@ class Sampler {
     std::vector<int> shuffled_indices;
     int count;
     int jump;
+    std::mutex m;
+    std::condition_variable c;
 };
 
 #endif

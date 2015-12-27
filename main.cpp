@@ -15,7 +15,9 @@ inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
 
 int GUI(int argc, char* argv[], World& w, MessageQueue<MessagePixel>& mq) {
   QApplication app(argc, argv);
-  QImage img = QImage(300, 300, QImage::Format_RGB32);
+  const auto vres = w.vp.vres;
+  const auto hres = w.vp.hres;
+  QImage img = QImage(hres, vres, QImage::Format_RGB32);
   QLabel lbl;
   std::chrono::time_point<std::chrono::system_clock> timer, time;
   timer = std::chrono::system_clock::now();
@@ -23,11 +25,10 @@ int GUI(int argc, char* argv[], World& w, MessageQueue<MessagePixel>& mq) {
     if(!mq.empty()) {
       const auto m = mq.front(); mq.pop();
       if(m.type == MessagePixel_e::Done) {
-        std::cout << "GUI: over!\n";
         break;
       }
       QRgb v = qRgb(toInt(m.color.r), toInt(m.color.g), toInt(m.color.b));
-      img.setPixel(m.x, 300 - m.y - 1, v);
+      img.setPixel(m.x, vres - m.y - 1, v);
       time = std::chrono::system_clock::now();
       if((time - timer).count() >= 33000) {
         lbl.setPixmap(QPixmap::fromImage(img));

@@ -27,7 +27,6 @@ void Pinhole::render_scene(World& w)
     }
   }
   mq.push({ MessagePixel_e::Done, 0, 0, black });
-  std::cout << "Pinhole: over!\n";
   //w.vp.save_image();
 }
 

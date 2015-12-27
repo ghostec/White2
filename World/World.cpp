@@ -13,14 +13,14 @@
 World::World(void) : background_color(black), tracer_ptr(nullptr) {}
 
 void World::build(void) {
-  int num_samples = 25;
-  vp.set_hres(300);
-  vp.set_vres(300);
+  int num_samples = 16;
+  vp.set_hres(600);
+  vp.set_vres(600);
   vp.set_pixel_size(1);
   vp.set_gamma(1.0);
   vp.set_sampler(std::unique_ptr<Jittered>(new Jittered(num_samples)));
 
-  vp.canvas.resize(300*300);
+  vp.canvas.resize(vp.vres * vp.hres);
 
   background_color = black;
   tracer_ptr = std::unique_ptr<Tracer>(new MultipleObjects(this));

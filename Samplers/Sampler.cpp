@@ -25,11 +25,17 @@ void Sampler::set_num_sets(const int _num_sets) {
 
 Point2D Sampler::sample_unit_square(void)
 {
+  std::lock_guard<std::mutex> lock(m);
+
   if(count  % num_samples == 0) {
     jump = (rand_int() % num_sets) * num_samples;
   }
 
-  return samples[jump + shuffled_indices[jump + count++ % num_samples]];
+  const auto ret = samples[jump + shuffled_indices[jump + count++ % num_samples]];
+
+  c.notify_one();
+
+  return ret;
 }
 
 void Sampler::setup_shuffled_indices(void) {
