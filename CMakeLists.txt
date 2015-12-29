@@ -12,7 +12,7 @@ add_subdirectory(Cameras)
 
 add_executable(White main.cpp)
 
-set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\msvc2012\\")
+set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Widgets)
 
 set(LIBRARIES Utilities Tracers GeometricObjects World Samplers Cameras)

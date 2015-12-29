@@ -3,15 +3,17 @@
 
 #include "Utilities/Point2D.h"
 #include "World/World.h"
-#include "Camera.h"
+#include "CameraWorker.h"
 
-class Pinhole : public Camera {
+class Pinhole : public CameraWorker {
   private:
   public:
-    Pinhole(MessageQueue<MessagePixel>& _mq);
+    Pinhole();
+    Pinhole(const Pinhole& _p);
+    virtual CameraWorker* clone() const;
     float d, zoom;
     Vector3D ray_direction(const Point2D& p);
-    virtual void render_scene(World& w);
+    void render_scene(int tid, World& w, int o_x, int o_y, int e_x, int e_y);
 };
 
 #endif

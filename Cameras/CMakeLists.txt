@@ -2,6 +2,7 @@ project(Cameras)
 
 set(CamerasFiles
   Camera.cpp Camera.h
+  CameraWorker.cpp CameraWorker.h
   Pinhole.cpp Pinhole.h
 )
 

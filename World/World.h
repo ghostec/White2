@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <memory>
-#include "Utilities/MessageQueue.h"
-#include "Utilities/MessagePixel.h"
 #include "Utilities/RGBColor.h"
 #include "GeometricObjects/Primitives/Sphere.h"
 #include "Tracers/Tracer.h"
