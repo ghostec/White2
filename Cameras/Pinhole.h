@@ -13,7 +13,7 @@ class Pinhole : public CameraWorker {
     virtual CameraWorker* clone() const;
     float d, zoom;
     Vector3D ray_direction(const Point2D& p);
-    void render_scene(int tid, World& w, int o_x, int o_y, int e_x, int e_y);
+    void render_scene(World& w, int o_y, int e_y);
 };
 
 #endif

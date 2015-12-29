@@ -3,7 +3,7 @@
 CameraWorker::CameraWorker() {}
 
 CameraWorker::CameraWorker(const CameraWorker& _c) :
-  eye(_c.eye), lookat(_c.lookat), up(_c.up), exposure_time(_c.exposure_time), canvas(_c.canvas)
+  eye(_c.eye), lookat(_c.lookat), up(_c.up), exposure_time(_c.exposure_time)
 {
   compute_uvw();
 }
@@ -40,9 +40,4 @@ void CameraWorker::set_lookat(const Point3D _lookat)
 void CameraWorker::set_up(const Vector3D _up)
 {
   up = _up;
-}
-
-const Canvas CameraWorker::getCanvas() const
-{
-  return canvas;
 }

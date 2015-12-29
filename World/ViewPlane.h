@@ -14,14 +14,13 @@ class ViewPlane {
     std::unique_ptr<Sampler> sampler_ptr;
     std::vector<RGBColor> canvas;
 
-    void set_num_samples(int _num_samples);
-    void set_hres(int _hres);
-    void set_vres(int _vres);
-    void set_pixel_size(float _s);
-    void set_gamma(float _gamma);
-    void set_sampler(std::unique_ptr<Sampler> sp);
-    void set_samples(const int num_samples);  
-    void save_image();
+    void setNumSamples(int _num_samples);
+    void setSize(int _hres, int _vres);
+    void setPixelSize(float _s);
+    void setGamma(float _gamma);
+    void setSampler(std::unique_ptr<Sampler> sp);
+    void setSamples(const int num_samples);  
+    void saveImage();
 };
 
 #endif

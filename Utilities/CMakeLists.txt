@@ -10,7 +10,6 @@ set(UtilitiesFiles
   RGBColor.cpp RGBColor.h
   ShadeRec.cpp ShadeRec.h
   Vector3D.cpp Vector3D.h
-  Canvas.cpp Canvas.h
 )
 
 add_library(Utilities ${UtilitiesFiles})
