@@ -12,8 +12,8 @@ class Pinhole : public CameraWorker {
     Pinhole(const Pinhole& _p);
     virtual CameraWorker* clone() const;
     float d, zoom;
-    Vector3D ray_direction(const Point2D& p);
-    void render_scene(World& w, int o_y, int e_y);
+    Vector3D rayDirection(const Point2D& p);
+    void render(World& w, int o_y, int e_y);
 };
 
 #endif

@@ -19,6 +19,7 @@ int GUI(int argc, char* argv[], World& w) {
   const auto hres = w.vp.hres;
   QImage img = QImage(hres, vres, QImage::Format_RGB32);
   QLabel lbl;
+
   std::chrono::time_point<std::chrono::system_clock> timer, time;
   timer = std::chrono::system_clock::now();
 
@@ -26,7 +27,7 @@ int GUI(int argc, char* argv[], World& w) {
   
   while(true) {
     time = std::chrono::system_clock::now();
-    if((time - timer).count() >= 33000) {
+    if((time - timer).count() >= 16666) {
       for(int i = 0; i < hres; i++) {
         for(int j = 0; j < vres; j++) {
           QRgb rgb = qRgb(toInt(canvas[j*vres+i].r), toInt(canvas[j*vres + i].g), toInt(canvas[j*vres + i].b));
@@ -47,19 +48,22 @@ int GUI(int argc, char* argv[], World& w) {
 int main(int argc, char *argv[]) {
   World w;
   w.build();
-  //w.render_perspective();
-  Camera cam;
+
   Pinhole p;
-  p.set_eye(Point3D(10, 20, 60));
-  p.set_lookat(Point3D(0, 0, 0));
-  p.set_up(Vector3D(0, 1, 0));
+  p.setEye(Point3D(0, 25, 50));
+  p.setLookat(Point3D(0, 0, 0));
+  p.setUp(Vector3D(0, 1, 0));
   p.d = 200;
-  p.compute_uvw();
+  p.computeUvw();
+
+  Camera cam;
   cam.setCameraWorker(p);
 
-  std::thread t1(&Camera::render_scene, cam, std::ref(w));
-  std::thread t2(GUI, argc, argv, std::ref(w));
-  t1.join();
-  t2.join();
+  std::thread t(GUI, argc, argv, std::ref(w));
+
+  cam.render(w);
+
+  t.join();
+
   return 0;
 }

@@ -7,6 +7,24 @@ Sampler::Sampler(int _num_samples) : num_samples(_num_samples), num_sets(83), co
   setup_shuffled_indices();
 }
 
+void Sampler::mapSamplesToHemisphere(const float e)
+{
+  int size = samples.size();
+  hemisphere_samples.reserve(num_samples * num_sets);
+
+  for(int i = 0; i < size; i++) {
+    float cos_phi = cos(2.0 * PI * samples[i].x);
+    float sin_phi = sin(2.0 * PI * samples[i].x);
+    float cos_theta = pow((1.0 - samples[i].y), 1.0 / (e + 1.0));
+    float sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    float pu = sin_theta * cos_phi;
+    float pv = sin_theta * sin_phi;
+    float pw = cos_theta;
+
+    hemisphere_samples.push_back(Point3D(pu, pv, pw));
+  }
+}
+
 int Sampler::get_num_samples() const {
   return num_samples;
 }
@@ -25,17 +43,19 @@ void Sampler::set_num_sets(const int _num_sets) {
 
 Point2D Sampler::sample_unit_square(void)
 {
-  //std::lock_guard<std::mutex> lock(m);
-
-  if(count  % num_samples == 0) {
+  if(count % num_samples == 0) {
     jump = (rand_int() % num_sets) * num_samples;
   }
 
-  const auto ret = samples[jump + shuffled_indices[jump + count++ % num_samples]];
+  return samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}
 
-  //c.notify_one();
+Point3D Sampler::sample_hemisphere(void) {
+  if(count % num_samples == 0) {
+    jump = (rand_int() % num_sets) * num_samples;
+  }
 
-  return ret;
+  return hemisphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
 }
 
 void Sampler::setup_shuffled_indices(void) {

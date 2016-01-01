@@ -5,10 +5,10 @@ CameraWorker::CameraWorker() {}
 CameraWorker::CameraWorker(const CameraWorker& _c) :
   eye(_c.eye), lookat(_c.lookat), up(_c.up), exposure_time(_c.exposure_time)
 {
-  compute_uvw();
+  computeUvw();
 }
 
-void CameraWorker::compute_uvw()
+void CameraWorker::computeUvw()
 {
   w = eye - lookat;
   w.normalize();
@@ -17,27 +17,27 @@ void CameraWorker::compute_uvw()
   v = w ^ u;
 }
 
-const Point3D CameraWorker::get_eye() const
+const Point3D CameraWorker::getEye() const
 {
   return eye;
 }
 
-const Point3D CameraWorker::get_lookat() const
+const Point3D CameraWorker::getLookat() const
 {
   return lookat;
 }
 
-void CameraWorker::set_eye(const Point3D _eye)
+void CameraWorker::setEye(const Point3D _eye)
 {
   eye = _eye;
 }
 
-void CameraWorker::set_lookat(const Point3D _lookat)
+void CameraWorker::setLookat(const Point3D _lookat)
 {
   lookat = _lookat;
 }
 
-void CameraWorker::set_up(const Vector3D _up)
+void CameraWorker::setUp(const Vector3D _up)
 {
   up = _up;
 }

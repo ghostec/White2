@@ -3,10 +3,10 @@
 #include "Camera.h"
 
 Camera::Camera() {
-  n_workers = 2;
+  n_workers = 4;
 }
 
-void Camera::render_scene(World& w)
+void Camera::render(World& w)
 {
   std::chrono::time_point<std::chrono::system_clock> start, end;
   start = std::chrono::system_clock::now();
@@ -14,7 +14,7 @@ void Camera::render_scene(World& w)
   std::vector<std::thread> w_threads;
 
   if(n_workers == 1) {
-    worker->render_scene(w, 0, 600);
+    worker->render(w, 0, 600);
   }
   else {
     auto vres = w.vp.vres;
@@ -24,7 +24,7 @@ void Camera::render_scene(World& w)
     int step = vres / n_workers;
     int y = 0;
     for(int i = 0; i < n_workers; i++) {
-      w_threads.push_back(std::move(std::thread(&CameraWorker::render_scene, worker, std::ref(w), y, y+step)));
+      w_threads.push_back(std::move(std::thread(&CameraWorker::render, worker, std::ref(w), y, y+step)));
       y += step;
     }
     for(int i = 0; i < n_workers; i++) {
@@ -36,7 +36,7 @@ void Camera::render_scene(World& w)
 
   std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
-  while(true);
+  w.vp.saveImage();
 }
 
 void Camera::setCameraWorker(const CameraWorker& _worker)

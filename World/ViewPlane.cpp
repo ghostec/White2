@@ -8,8 +8,12 @@ inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
 void ViewPlane::saveImage() {
   FILE *f = fopen("image4.ppm", "w");
   fprintf(f, "P3\n%d %d\n%d\n", hres, vres, 255);
-  for(int i = vres * vres - 1; i >= 0; i--)
-    fprintf(f, "%d %d %d ", toInt(canvas[i].r), toInt(canvas[i].g), toInt(canvas[i].b));
+  for(int i = 0; i < vres; i++) {
+    for(int j = 0; j < hres; j++) {
+      const auto p = hres*(vres-i-1) + j;
+      fprintf(f, "%d %d %d ", toInt(canvas[p].r), toInt(canvas[p].g), toInt(canvas[p].b));
+    }
+  }
 }
 
 void ViewPlane::setNumSamples(int _num_samples) {
