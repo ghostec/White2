@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <thread>
 #include "Camera.h"
 
 Camera::Camera() {

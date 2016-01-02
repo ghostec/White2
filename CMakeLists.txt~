@@ -17,8 +17,6 @@ add_subdirectory(Materials)
 
 set(LIBRARIES Utilities Tracers GeometricObjects Samplers Cameras BRDFs Lights Materials World)
 
-FIND_PACKAGE ( Threads REQUIRED )
-
 if(GUI)
   add_executable(White main.cpp)
 
@@ -29,7 +27,7 @@ if(GUI)
 else(GUI)
   add_executable(White main_nogui.cpp)
 
-  target_link_libraries(White ${LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(White ${LIBRARIES})
 endif(GUI)
 
 set_property(TARGET White ${LIBRARIES} PROPERTY CXX_STANDARD 11)

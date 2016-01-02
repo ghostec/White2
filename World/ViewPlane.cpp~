@@ -1,4 +1,3 @@
-#include <cmath>
 #include "Samplers/Jittered.h"
 #include "Samplers/Regular.h"
 #include "ViewPlane.h"

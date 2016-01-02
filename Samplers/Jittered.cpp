@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "Jittered.h"
 #include "Utilities/Math.h"
 

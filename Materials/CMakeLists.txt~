@@ -6,5 +6,3 @@ set(MaterialsFiles
 )
 
 add_library(Materials ${MaterialsFiles})
-
-target_link_libraries(Materials BRDFs)
