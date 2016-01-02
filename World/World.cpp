@@ -27,12 +27,12 @@ void World::build(void) {
   tracer_ptr = std::unique_ptr<Tracer>(new RayCast(this));
 
   Ambient* ambient_ptr = new Ambient;
-  ambient_ptr->scaleRadiance(1.0);
+  ambient_ptr->scaleRadiance(0.25);
   ambient_light = ambient_ptr;
 
   PointLight* light_ptr2 = new PointLight;
-  light_ptr2->setLocation(Vector3D(100, 50, 100));
-  light_ptr2->scaleRadiance(3.0);
+  light_ptr2->setLocation(Vector3D(40, 60, 30));
+  light_ptr2->scaleRadiance(5.0);
   lights.push_back(light_ptr2);
 
   Matte* matte_ptr1 = new Matte;
@@ -60,7 +60,7 @@ void World::build(void) {
   Matte* matte_ptr3 = new Matte;
   matte_ptr3->setKa(0.25);
   matte_ptr3->setKd(0.65);
-  matte_ptr3->setCd(0, 1, 0);
+  matte_ptr3->setCd(0, 0, 1);
 
   sphere_ptr = new Sphere(Point3D(-20, 0, 30), 10);
   sphere_ptr->set_color(1, 1, 0);

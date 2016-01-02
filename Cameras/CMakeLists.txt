@@ -8,7 +8,13 @@ set(CamerasFiles
 
 add_library(Cameras ${CamerasFiles})
 
-set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\msvc2012\\")
-find_package(Qt5Widgets)
+if(GUI)
+  set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\msvc2012\\")
+  find_package(Qt5Widgets)
+endif(GUI)
 
-target_link_libraries(Cameras Qt5::Widgets)
+if(GUI)
+  target_link_libraries(Cameras Qt5::Widgets)
+else(GUI)
+  target_link_libraries(Cameras)
+endif(GUI)

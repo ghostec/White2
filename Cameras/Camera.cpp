@@ -3,7 +3,7 @@
 #include "Camera.h"
 
 Camera::Camera() {
-  n_workers = 4;
+  n_workers = 8;
 }
 
 void Camera::render(World& w)

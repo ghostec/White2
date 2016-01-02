@@ -13,12 +13,19 @@ add_subdirectory(BRDFs)
 add_subdirectory(Lights)
 add_subdirectory(Materials)
 
-add_executable(White main.cpp)
-
-set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
-find_package(Qt5Widgets)
-
 set(LIBRARIES Utilities Tracers GeometricObjects World Samplers Cameras BRDFs Lights Materials)
-target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
+
+if(GUI)
+  add_executable(White main.cpp)
+
+  set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
+  find_package(Qt5Widgets)
+
+  target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
+else(GUI)
+  add_executable(White main_nogui.cpp)
+
+  target_link_libraries(White ${LIBRARIES})
+endif(GUI)
 
 set_property(TARGET White ${LIBRARIES} PROPERTY CXX_STANDARD 11)
