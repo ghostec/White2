@@ -32,7 +32,7 @@ void World::build(void) {
   ambient_light = ambient_ptr;
 
   PointLight* light_ptr2 = new PointLight;
-  light_ptr2->setLocation(Vector3D(40, 60, 30));
+  light_ptr2->setLocation(Point3D(40, 60, 30));
   light_ptr2->scaleRadiance(5.0);
   lights.push_back(light_ptr2);
 

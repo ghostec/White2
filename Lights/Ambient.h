@@ -17,6 +17,7 @@ public:
   void setColor(const float r, const float g, const float b);
   virtual Vector3D getDirection(ShadeRec& sr);
   virtual RGBColor L(ShadeRec& sr);
+  virtual bool inShadow(const Ray& ray, const ShadeRec& sr) const;
 };
 
 #endif

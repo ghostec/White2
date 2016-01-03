@@ -31,3 +31,7 @@ RGBColor Ambient::L(ShadeRec& sr)
 {
   return ls * color;
 }
+
+bool Ambient::inShadow(const Ray& ray, const ShadeRec& sr) const {
+  return false;
+}

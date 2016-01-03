@@ -20,6 +20,7 @@ class GeometricObject {
 		virtual GeometricObject* clone(void) const = 0;
     virtual ~GeometricObject(void);
     virtual bool hit(const Ray& ray, double& t, ShadeRec& s) const = 0;
+    virtual bool shadowHit(const Ray& ray, double& tmin) const = 0;
     void set_color(const RGBColor& c);
 		void set_color(const float r, const float g, const float b);
 		RGBColor get_color(void);

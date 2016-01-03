@@ -17,53 +17,22 @@ class Vector3D {
 		Vector3D(const Vector3D& v);
 		Vector3D(const Normal& n);
 		Vector3D(const Point3D& p);
-
 		~Vector3D (void);
-
-		Vector3D&
-		operator= (const Vector3D& rhs);
-
-		Vector3D&
-		operator= (const Normal& rhs);
-
-		Vector3D&
-		operator= (const Point3D& rhs);
-
-		Vector3D
-		operator- (void) const;
-
-		double
-		length(void);
-
-		double
-		len_squared(void);
-
-		Vector3D
-		operator* (const double a) const;
-
-		Vector3D
-		operator/ (const double a) const;
-
-		Vector3D
-		operator+ (const Vector3D& v) const;
-
-		Vector3D&
-		operator+= (const Vector3D& v);
-
-		Vector3D
-		operator- (const Vector3D& v) const;
-
-		double
-		operator* (const Vector3D& b) const;
-
-		Vector3D
-		operator^ (const Vector3D& v) const;
-
-		void
-		normalize(void);
-
-		Vector3D&
-		hat(void);
+		Vector3D& operator= (const Vector3D& rhs);
+		Vector3D& operator= (const Normal& rhs);
+		Vector3D& operator= (const Point3D& rhs);
+		Vector3D operator- (void) const;
+		double length(void);
+		double len_squared(void);
+		Vector3D operator* (const double a) const;
+		Vector3D operator/ (const double a) const;
+		Vector3D operator+ (const Vector3D& v) const;
+		Vector3D& operator+= (const Vector3D& v);
+		Vector3D operator- (const Vector3D& v) const;
+		double operator* (const Vector3D& b) const;
+		Vector3D operator^ (const Vector3D& v) const;
+		void normalize(void);
+		Vector3D& hat(void);
 };
 
 inline Vector3D

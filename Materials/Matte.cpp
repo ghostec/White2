@@ -41,7 +41,13 @@ RGBColor Matte::shade(ShadeRec& sr)
     float ndotwi = sr.normal * wi;
 
     if(ndotwi > 0.0) {
-      L += diffuse_brdf->f(sr, wo, wi) * sr.w.lights[j]->L(sr) * ndotwi;
+      bool in_shadow = false;
+      Ray shadow_ray(sr.hit_point, wi);
+      in_shadow = sr.w.lights[j]->inShadow(shadow_ray, sr);
+
+      if(!in_shadow) {
+        L += diffuse_brdf->f(sr, wo, wi) * sr.w.lights[j]->L(sr) * ndotwi;
+      }
     }
   }
 

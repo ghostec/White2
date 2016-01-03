@@ -23,7 +23,7 @@ void PointLight::setColor(const float r, const float g, const float b)
   color = RGBColor(r, g, b);
 }
 
-void PointLight::setLocation(Vector3D _location)
+void PointLight::setLocation(Point3D _location)
 {
   location = _location;
 }
@@ -36,4 +36,17 @@ Vector3D PointLight::getDirection(ShadeRec& sr)
 RGBColor PointLight::L(ShadeRec & sr)
 {
   return ls * color;
+}
+
+bool PointLight::inShadow(const Ray& ray, const ShadeRec& sr) const
+{
+  double t;
+  int n_objects = sr.w.objects.size();
+  double d = location.distance(ray.o);
+  for(int i = 0; i < n_objects; i++) {
+    if(sr.w.objects[i]->shadowHit(ray, t) && t < d) {
+      return true;
+    }
+  }
+  return false;
 }

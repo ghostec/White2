@@ -1,5 +1,4 @@
-#include <math.h>
-
+#include <cmath>
 #include "Vector3D.h"
 #include "Normal.h"
 #include "Point3D.h"
