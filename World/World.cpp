@@ -12,6 +12,7 @@
 #include "Lights/Ambient.h"
 #include "Lights/PointLight.h"
 #include "Materials/Matte.h"
+#include "Materials/Phong.h"
 #include "World.h"
 
 World::World(void) : background_color(black), tracer_ptr(nullptr), ambient_light(new Ambient) {}
@@ -47,14 +48,17 @@ void World::build(void) {
   sphere_ptr->setMaterial(matte_ptr1);
 	add_object(sphere_ptr);
 
-  Matte* matte_ptr2 = new Matte;
-  matte_ptr2->setKa(0.25);
-  matte_ptr2->setKd(0.65);
-  matte_ptr2->setCd(1, 0, 0);
+  Phong* phong_ptr1 = new Phong;
+  phong_ptr1->setKa(0.15);
+  phong_ptr1->setKd(0.70);
+  phong_ptr1->setCd(1, 0, 0);
+  phong_ptr1->setKs(0.15);
+  phong_ptr1->setCs(1, 1, 1);
+  phong_ptr1->setExp(10.0);
 
 	sphere_ptr = new Sphere(Point3D(0, 0, 30), 15);
 	sphere_ptr->set_color(0, 0, 1);
-  sphere_ptr->setMaterial(matte_ptr2);
+  sphere_ptr->setMaterial(phong_ptr1);
 	add_object(sphere_ptr);
 
   Matte* matte_ptr3 = new Matte;

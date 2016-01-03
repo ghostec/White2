@@ -7,7 +7,7 @@ inline double clamp(double x) { return x<0 ? 0 : x>1 ? 1 : x; }
 inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
 
 void ViewPlane::saveImage() {
-  FILE *f = fopen("image5.ppm", "w");
+  FILE *f = fopen("image6.ppm", "w");
   fprintf(f, "P3\n%d %d\n%d\n", hres, vres, 255);
   for(int i = 0; i < vres; i++) {
     for(int j = 0; j < hres; j++) {

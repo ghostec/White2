@@ -17,7 +17,7 @@ add_subdirectory(Materials)
 
 set(LIBRARIES Utilities Tracers GeometricObjects Samplers Cameras BRDFs Lights Materials World)
 
-FIND_PACKAGE ( Threads REQUIRED )
+FIND_PACKAGE(Threads REQUIRED)
 
 if(GUI)
   add_executable(White main.cpp)
