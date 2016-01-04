@@ -11,7 +11,7 @@ class Camera {
 	public:
     Camera();
     void render(World& w);
-    void setCameraWorker(const CameraWorker& _worker);
+    void setCameraWorker(CameraWorker* _worker);
 };
 
 #endif

@@ -40,7 +40,7 @@ void Camera::render(World& w)
   w.vp.saveImage();
 }
 
-void Camera::setCameraWorker(const CameraWorker& _worker)
+void Camera::setCameraWorker(CameraWorker* _worker)
 {
-  worker = _worker.clone();
+  worker = _worker;
 }

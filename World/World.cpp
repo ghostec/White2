@@ -20,7 +20,7 @@
 World::World(void) : background_color(black), tracer_ptr(nullptr), ambient_light(new Ambient) {}
 
 void World::build(void) {
-  int num_samples = 16;
+  int num_samples = 1;
   vp.setSize(600, 600);
   vp.setPixelSize(1);
   vp.setGamma(1.0);
@@ -77,7 +77,7 @@ void World::build(void) {
   Matte* matte_ptr4 = new Matte;
   matte_ptr4->setKa(0.25);
   matte_ptr4->setKd(0.65);
-  matte_ptr4->setCd(1, 1, 1);
+  matte_ptr4->setCd(0.6, 0.6, 0.6);
   plane_ptr->setMaterial(matte_ptr4);
   add_object(plane_ptr);
 }
