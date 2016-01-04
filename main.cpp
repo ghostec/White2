@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
   w.build();
 
   Pinhole p;
-  p.setEye(Point3D(0, 25, 50));
+  p.setEye(Point3D(0, 40, 50));
   p.setLookat(Point3D(0, 0, 0));
   p.setUp(Vector3D(0, 1, 0));
   p.d = 200;

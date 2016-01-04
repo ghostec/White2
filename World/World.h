@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include "Utilities/RGBColor.h"
-#include "GeometricObjects/Primitives/Sphere.h"
+#include "GeometricObjects/GeometricObject.h"
 #include "Tracers/Tracer.h"
 #include "Lights/Light.h"
 #include "ViewPlane.h"

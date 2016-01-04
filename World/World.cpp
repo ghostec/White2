@@ -13,6 +13,8 @@
 #include "Lights/PointLight.h"
 #include "Materials/Matte.h"
 #include "Materials/Phong.h"
+#include "GeometricObjects/Primitives/Sphere.h"
+#include "GeometricObjects/Primitives/Plane.h"
 #include "World.h"
 
 World::World(void) : background_color(black), tracer_ptr(nullptr), ambient_light(new Ambient) {}
@@ -42,7 +44,7 @@ void World::build(void) {
   matte_ptr1->setCd(1, 1, 0);
 
 	Sphere* sphere_ptr = new Sphere;
-  sphere_ptr->set_center(0, 0, -30);
+  sphere_ptr->set_center(0, 15, -30);
   sphere_ptr->set_radius(15.0);
   sphere_ptr->set_color(1, 0, 0);
   sphere_ptr->setMaterial(matte_ptr1);
@@ -56,7 +58,7 @@ void World::build(void) {
   phong_ptr1->setCs(1, 1, 1);
   phong_ptr1->setExp(10.0);
 
-	sphere_ptr = new Sphere(Point3D(0, 0, 30), 15);
+	sphere_ptr = new Sphere(Point3D(0, 15, 30), 15);
 	sphere_ptr->set_color(0, 0, 1);
   sphere_ptr->setMaterial(phong_ptr1);
 	add_object(sphere_ptr);
@@ -66,10 +68,18 @@ void World::build(void) {
   matte_ptr3->setKd(0.65);
   matte_ptr3->setCd(0, 0, 1);
 
-  sphere_ptr = new Sphere(Point3D(-20, 0, 30), 10);
+  sphere_ptr = new Sphere(Point3D(-30, 5, 35), 10);
   sphere_ptr->set_color(1, 1, 0);
   sphere_ptr->setMaterial(matte_ptr3);
   add_object(sphere_ptr);
+
+  Plane* plane_ptr = new Plane;
+  Matte* matte_ptr4 = new Matte;
+  matte_ptr4->setKa(0.25);
+  matte_ptr4->setKd(0.65);
+  matte_ptr4->setCd(1, 1, 1);
+  plane_ptr->setMaterial(matte_ptr4);
+  add_object(plane_ptr);
 }
 
 inline void World::add_object(GeometricObject* object_ptr) {
