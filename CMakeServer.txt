@@ -5,7 +5,10 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 
 include_directories(./)
 
-set(LIBRARIES)
+add_subdirectory(Server)
+add_subdirectory(Utilities)
+
+set(LIBRARIES Server Utilities)
 
 FIND_PACKAGE(Threads REQUIRED)
 
@@ -13,7 +16,8 @@ add_executable(WhiteServer server.cpp)
 
 set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Widgets)
+find_package(Qt5Network)
 
-target_link_libraries(WhiteServer ${LIBRARIES} Qt5::Widgets)
+target_link_libraries(WhiteServer ${LIBRARIES} Qt5::Widgets Qt5::Network)
 
 set_property(TARGET WhiteServer ${LIBRARIES} PROPERTY CXX_STANDARD 11)

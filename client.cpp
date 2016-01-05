@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <memory>
+#include "Client/WhiteClient.h"
 
 int GUI(int argc, char* argv[]) {
   QApplication app(argc, argv);
@@ -13,7 +14,10 @@ int GUI(int argc, char* argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-  std::thread t(GUI, argc, argv);
-  t.join();
-  return 0;
+  QApplication app(argc, argv);
+  //std::thread t(GUI, argc, argv);
+  WhiteClient client;
+  client.HelloUDP();
+  //t.join();
+  return app.exec();
 }
