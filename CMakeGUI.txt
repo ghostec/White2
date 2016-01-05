@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project(White)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
@@ -17,17 +17,13 @@ add_subdirectory(Materials)
 
 set(LIBRARIES Utilities Tracers GeometricObjects Samplers Cameras BRDFs Lights Materials World)
 
-if(GUI)
-  add_executable(White main.cpp)
+FIND_PACKAGE(Threads REQUIRED)
 
-  set (CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
-  find_package(Qt5Widgets)
+add_executable(White main.cpp)
 
-  target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
-else(GUI)
-  add_executable(White main_nogui.cpp)
+set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
+find_package(Qt5Widgets)
 
-  target_link_libraries(White ${LIBRARIES})
-endif(GUI)
+target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
 
 set_property(TARGET White ${LIBRARIES} PROPERTY CXX_STANDARD 11)

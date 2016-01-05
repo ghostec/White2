@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 2.8)
+project(WhiteClient)
+
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
+include_directories(./)
+
+set(LIBRARIES)
+
+FIND_PACKAGE(Threads REQUIRED)
+
+add_executable(WhiteClient client.cpp)
+
+set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
+find_package(Qt5Widgets)
+
+target_link_libraries(WhiteClient ${LIBRARIES} Qt5::Widgets)
+
+set_property(TARGET WhiteClient ${LIBRARIES} PROPERTY CXX_STANDARD 11)
