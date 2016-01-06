@@ -25,7 +25,7 @@ WhiteServer::WhiteServer(QObject *parent) : QObject(parent)
   // to bind to an address and port using bind()
   // bool QAbstractSocket::bind(const QHostAddress & address, 
   //     quint16 port = 0, BindMode mode = DefaultForPlatform)
-  socket->bind(QHostAddress::LocalHost, 1234);
+  socket->bind(QHostAddress("192.168.2.118"), 1234);
 
   //connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 }
@@ -53,7 +53,7 @@ void WhiteServer::start()
       QByteArray buffer;
       buffer.resize(socket->pendingDatagramSize());
 
-      QHostAddress sender;
+      QHostAddress sender("192.168.2.130");
       quint16 senderPort = 1235;
 
       // qint64 QUdpSocket::readDatagram(char * data, qint64 maxSize, 

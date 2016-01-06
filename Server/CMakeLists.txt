@@ -6,7 +6,6 @@ set(ServerFiles
 
 add_library(Server ${ServerFiles})
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Network)
 
 set_target_properties(Server PROPERTIES AUTOMOC TRUE)

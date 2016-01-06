@@ -14,7 +14,6 @@ FIND_PACKAGE(Threads REQUIRED)
 
 add_executable(WhiteServer server.cpp)
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Widgets)
 find_package(Qt5Network)
 

@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 
+if(WIN32)
+  set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
+elseif(APPLE)
+  set(CMAKE_PREFIX_PATH "/usr/local/opt/qt5/")
+endif()
+
 if(${target} STREQUAL "gui")
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeGUI.txt)
 elseif(target STREQUAL "server")

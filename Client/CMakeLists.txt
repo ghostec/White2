@@ -6,7 +6,6 @@ set(ClientFiles
 
 add_library(Client ${ClientFiles})
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Network)
 
 set_target_properties(Client PROPERTIES AUTOMOC TRUE)

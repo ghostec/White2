@@ -21,7 +21,6 @@ FIND_PACKAGE(Threads REQUIRED)
 
 add_executable(White main.cpp)
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\5.5\\qtbase\\lib\\cmake\\")
 find_package(Qt5Widgets)
 
 target_link_libraries(White ${LIBRARIES} Qt5::Widgets)
