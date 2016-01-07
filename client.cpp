@@ -11,7 +11,7 @@ inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
 
-  Client client;
+  Client client(QHostAddress::LocalHost, 1234);
   client.setup();
   client.registerSelf();
   client.gui.window.show();

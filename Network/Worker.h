@@ -11,7 +11,7 @@ class Worker : public QObject
 {
   Q_OBJECT
 public:
-  explicit Worker(QObject *parent = 0);
+  explicit Worker(QHostAddress server_addr, quint16 server_port, QObject *parent = 0);
   void setup();
   void work(WhiteNetwork::Job job);
   void sendResult(WhiteNetwork::Job job);
@@ -25,8 +25,6 @@ private:
   QTcpSocket *socket;
   QByteArray* buffer;
   qint32* size;
-  QHostAddress server_addr;
-  quint16 server_port;
 
   QVector<RGBColor> canvas;
   int vres, hres;

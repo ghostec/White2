@@ -15,7 +15,7 @@ class Server : public QObject
 {
   Q_OBJECT
 public:
-  explicit Server(QObject *parent = 0);
+  explicit Server(QHostAddress addr, quint16 port, QObject *parent = 0);
 signals:
   void dataReceived(QTcpSocket* socket, QByteArray data);
 public slots:

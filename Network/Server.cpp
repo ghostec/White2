@@ -5,7 +5,7 @@
 #include "Message.h"
 #include "Server.h"
 
-Server::Server(QObject *parent) : QObject(parent)
+Server::Server(QHostAddress addr, quint16 port, QObject *parent) : QObject(parent)
 {
   server = new QTcpServer(this);
 
@@ -16,7 +16,7 @@ Server::Server(QObject *parent) : QObject(parent)
   vres = hres = 600;
   frame.resize(vres * hres);
 
-  if(!server->listen(QHostAddress::LocalHost, 1234))
+  if(!server->listen(addr, port))
   {
     qDebug() << "Server could not start";
   }
@@ -35,7 +35,6 @@ void Server::sendJob(QTcpSocket* socket)
   // mutexes
   if(cur_y >= vres) return;
 
-  std::cout << "Send Job\n";
   WhiteNetwork::Job job = { cur_y, cur_y + step };
   cur_y += step;
 
@@ -50,8 +49,6 @@ void Server::sendFrame()
   int start = 0;
   int k = 0;
   int n_pixels = vres*hres;
-
-  std::cout << "Send Frame\n";
   
   frame[1] = RGBColor(1);
   frame[2] = RGBColor(1);
@@ -87,7 +84,7 @@ void Server::collectResult(QDataStream& ds)
   received_pixels += (end - start);
   // mutexes
 
-  // replace for stl copy insert
+  // STL insert/copy
   for(int i = start; i < end; i++) {
     ds >> frame[i];
   }
@@ -100,7 +97,6 @@ void Server::collectResult(QDataStream& ds)
 void Server::newConnection()
 {
   while(server->hasPendingConnections()) {
-    std::cout << "newConnection\n";
     QTcpSocket* socket = server->nextPendingConnection();
     buffers[socket] = new QByteArray();
     sizes[socket] = new qint32(0);
@@ -115,18 +111,15 @@ void Server::handleData(QTcpSocket* socket, QByteArray data) {
   ds >> type;
 
   if(type == WhiteNetwork::Message::RegisterClient) {
-    std::cout << "Register Client\n";
     client_socket = socket;
   }
   else if(type == WhiteNetwork::Message::RegisterWorker) {
-    std::cout << "Register Worker\n";
     sendJob(socket);
   }
   else if(type == WhiteNetwork::Message::PixelsData) {
     collectResult(ds);
   }
   else if(type == WhiteNetwork::Message::JobDone) {
-    std::cout << "Job Done\n";
     sendJob(socket);
   }
 }
@@ -139,15 +132,15 @@ void Server::readyRead()
   qint32 size = *s;
   while(socket->bytesAvailable() > 0) {
     buffer->append(socket->readAll());
-    while((size == 0 && buffer->size() >= 4) || (size > 0 && buffer->size() >= size)) //While can process data, process it
+    while((size == 0 && buffer->size() >= 4) || (size > 0 && buffer->size() >= size))
     {
-      if(size == 0 && buffer->size() >= 4) //if size of data has received completely, then store it on our global variable
+      if(size == 0 && buffer->size() >= 4)
       {
         size = ArrayToInt(buffer->mid(0, 4));
         *s = size;
         buffer->remove(0, 4);
       }
-      if(size > 0 && buffer->size() >= size) // If data has received completely, then emit our SIGNAL with the data
+      if(size > 0 && buffer->size() >= size)
       {
         QByteArray data = buffer->mid(0, size);
         buffer->remove(0, size);

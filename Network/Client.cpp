@@ -5,14 +5,11 @@
 #include "Message.h"
 #include "Client.h"
 
-Client::Client(QObject *parent) : QObject(parent)
+Client::Client(QHostAddress server_addr, quint16 server_port, QObject *parent) : QObject(parent)
 {
   socket = new QTcpSocket(this);
   buffer = new QByteArray();
   size = new qint32(0);
-
-  server_addr = QHostAddress::LocalHost;
-  server_port = 1234;
 
   socket->connectToHost(server_addr, server_port);
 
@@ -78,11 +75,11 @@ void Client::handleData(QTcpSocket * socket, QByteArray data)
   ds >> type;
 
   if(type == WhiteNetwork::Message::PixelsData) {
-    //std::cout << "Pixels Data\n";
+    // STL async
     receivePixels(ds);
   }
   else if(type == WhiteNetwork::Message::FrameSent) {
-    std::cout << "Frame Sent\n";
+    // STL async
     emit frameReceived();
   }
   else if(type == WhiteNetwork::Message::Setup) {
@@ -95,20 +92,21 @@ void Client::readyRead()
   qint32 s = *size;
   while(socket->bytesAvailable() > 0) {
     buffer->append(socket->readAll());
-    while((s == 0 && buffer->size() >= 4) || (s > 0 && buffer->size() >= s)) //While can process data, process it
+    while((s == 0 && buffer->size() >= 4) || (s > 0 && buffer->size() >= s))
     {
-      if(s == 0 && buffer->size() >= 4) //if size of data has received completely, then store it on our global variable
+      if(s == 0 && buffer->size() >= 4)
       {
         s = ArrayToInt(buffer->mid(0, 4));
         *size = s;
         buffer->remove(0, 4);
       }
-      if(s > 0 && buffer->size() >= s) // If data has received completely, then emit our SIGNAL with the data
+      if(s > 0 && buffer->size() >= s)
       {
         QByteArray data = buffer->mid(0, s);
         buffer->remove(0, s);
         s = 0;
         *size = s;
+        // STL async
         emit dataReceived(socket, data);
       }
     }

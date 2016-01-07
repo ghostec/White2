@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-  Worker worker;
+  Worker worker(QHostAddress::LocalHost, 1234);
   worker.setup();
   worker.registerSelf();
   return app.exec();

@@ -10,6 +10,6 @@
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-  Server server;
+  Server server(QHostAddress::LocalHost, 1234);
   return app.exec();
 }
