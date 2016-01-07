@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(Server)
+project(Worker)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
@@ -12,11 +12,11 @@ set(LIBRARIES Utilities Network)
 
 FIND_PACKAGE(Threads REQUIRED)
 
-add_executable(Server server.cpp)
+add_executable(Worker worker.cpp)
 
-find_package(Qt5Widgets)
+find_package(Qt5Core)
 find_package(Qt5Network)
 
-target_link_libraries(Server ${LIBRARIES} Qt5::Widgets Qt5::Network)
+target_link_libraries(Worker ${LIBRARIES} Qt5::Core Qt5::Network)
 
-set_property(TARGET Server ${LIBRARIES} PROPERTY CXX_STANDARD 11)
+set_property(TARGET Worker ${LIBRARIES} PROPERTY CXX_STANDARD 11)

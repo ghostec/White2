@@ -6,10 +6,12 @@
 #include <thread>
 #include <chrono>
 #include <memory>
-#include "Network/Server.h"
+#include "Network/Worker.h"
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-  Server server;
+  Worker worker;
+  worker.setup();
+  worker.registerSelf();
   return app.exec();
 }

@@ -1,23 +1,20 @@
 #include <QApplication>
-#include <QtGui>
-#include <QLabel>
-#include <QImage>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <memory>
-#include "Client/WhiteClient.h"
+#include "Network/Client.h"
 
-int GUI(int argc, char* argv[]) {
-  QApplication app(argc, argv);
-  return app.exec();
-}
+inline double clamp(double x) { return x<0 ? 0 : x>1 ? 1 : x; }
+inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-  //std::thread t(GUI, argc, argv);
-  WhiteClient client;
-  client.HelloUDP();
-  //t.join();
+
+  Client client;
+  client.setup();
+  client.registerSelf();
+  client.gui.window.show();
+
   return app.exec();
 }

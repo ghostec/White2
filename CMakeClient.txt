@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 2.8)
-project(WhiteClient)
+project(Client)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
 include_directories(./)
 
-add_subdirectory(Client)
 add_subdirectory(Utilities)
+add_subdirectory(Network)
 
-set(LIBRARIES Client Utilities)
+set(LIBRARIES Utilities Network)
 
 FIND_PACKAGE(Threads REQUIRED)
 
-add_executable(WhiteClient client.cpp)
+add_executable(Client client.cpp)
 
 find_package(Qt5Widgets)
 find_package(Qt5Network)
 
-target_link_libraries(WhiteClient ${LIBRARIES} Qt5::Widgets Qt5::Network)
+target_link_libraries(Client ${LIBRARIES} Qt5::Widgets Qt5::Network)
 
-set_property(TARGET WhiteClient ${LIBRARIES} PROPERTY CXX_STANDARD 11)
+set_property(TARGET Client ${LIBRARIES} PROPERTY CXX_STANDARD 11)
