@@ -10,13 +10,18 @@
 
 Worker::Worker(QObject *parent) : QObject(parent)
 {
-  socket = new QUdpSocket(this);
-  socket->bind(QHostAddress::LocalHost, 1236);
-
-  connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+  socket = new QTcpSocket(this);
+  buffer = new QByteArray();
+  size = new qint32(0);
 
   server_addr = QHostAddress::LocalHost;
   server_port = 1234;
+
+  socket->connectToHost(server_addr, server_port);
+
+  connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+  connect(this, SIGNAL(dataReceived(QTcpSocket*, QByteArray)),
+    this, SLOT(handleData(QTcpSocket*, QByteArray)));
 
   id = 0;
 }
@@ -28,6 +33,8 @@ void Worker::setup() {
 
 void Worker::work(WhiteNetwork::Job job)
 {
+  std::cout << "work(Job)\n";
+  std::cout << job.by << " " << job.ey << std::endl;
   canvas.resize(hres*(job.ey - job.by));
   sendResult(job);
 }
@@ -50,51 +57,60 @@ void Worker::sendResult(WhiteNetwork::Job job)
     ds << WhiteNetwork::Message::PixelsData << start << offset + k;
     ds.writeRawData(_data.data(), _data.size());
     start = offset + k;
-    socket->writeDatagram(data, server_addr, server_port);
+    writeMessage(socket, data);
   }
 
   QByteArray data;
   QDataStream ds(&data, QIODevice::ReadWrite);
-  ds << WhiteNetwork::Message::JobDone << id;
-  socket->writeDatagram(data, server_addr, server_port);
+  ds << WhiteNetwork::Message::JobDone;
+  writeMessage(socket, data);
 }
 
 void Worker::registerSelf()
 {
   QByteArray data;
   QDataStream ds(&data, QIODevice::ReadWrite);
-  WhiteNetwork::Register reg = {QHostAddress::LocalHost, 1236};
-  ds << WhiteNetwork::Message::RegisterWorker << reg;
-  socket->writeDatagram(data, server_addr, server_port);
+  ds << WhiteNetwork::Message::RegisterWorker;
+  writeMessage(socket, data);
+}
+
+void Worker::handleData(QTcpSocket* socket, QByteArray data) {
+  WhiteNetwork::Message type;
+  QDataStream ds(&data, QIODevice::ReadWrite);
+  ds >> type;
+
+  if(type == WhiteNetwork::Message::Job) {
+    WhiteNetwork::Job job;
+    ds >> job;
+    std::cout << "Received Job\n";
+    work(job);
+  }
+  else if(type == WhiteNetwork::Message::Setup) {
+    setup();
+  }
 }
 
 void Worker::readyRead()
 {
-  while(socket->hasPendingDatagrams()) {
-    QByteArray buffer;
-    buffer.resize(socket->pendingDatagramSize());
-
-    QHostAddress sender = server_addr;
-    quint16 senderPort = server_port;
-
-    socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
-
-    WhiteNetwork::Message type;
-    QDataStream ds(&buffer, QIODevice::ReadWrite);
-    ds >> type;
-
-    //qDebug() << "Message from: " << sender.toString();
-    //qDebug() << "Message port: " << senderPort;
-
-    if(type == WhiteNetwork::Message::Job) {
-      WhiteNetwork::Job job;
-      ds >> job;
-      std::cout << "Received Job\n";
-      work(job);
+  qint32 s = *size;
+  while(socket->bytesAvailable() > 0) {
+    buffer->append(socket->readAll());
+    while((s == 0 && buffer->size() >= 4) || (s > 0 && buffer->size() >= s)) //While can process data, process it
+    {
+      if(s == 0 && buffer->size() >= 4) //if size of data has received completely, then store it on our global variable
+      {
+        s = ArrayToInt(buffer->mid(0, 4));
+        *size = s;
+        buffer->remove(0, 4);
+      }
+      if(s > 0 && buffer->size() >= s) // If data has received completely, then emit our SIGNAL with the data
+      {
+        QByteArray data = buffer->mid(0, s);
+        buffer->remove(0, s);
+        s = 0;
+        *size = s;
+        emit dataReceived(socket, data);
+      }
     }
-    else if(type == WhiteNetwork::Message::Setup) {
-      setup();
-    }
-
   }
 }

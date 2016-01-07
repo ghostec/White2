@@ -2,7 +2,7 @@
 #define __NETWORK_WORKER__
 
 #include <QObject>
-#include <QUdpSocket>
+#include <QTcpSocket>
 #include <QVector>
 #include "Utilities/RGBColor.h"
 #include "Message.h"
@@ -17,10 +17,14 @@ public:
   void sendResult(WhiteNetwork::Job job);
   void registerSelf();
 signals:
+  void dataReceived(QTcpSocket* socket, QByteArray data);
 public slots:
   void readyRead();
+  void handleData(QTcpSocket* socket, QByteArray data);
 private:
-  QUdpSocket *socket;
+  QTcpSocket *socket;
+  QByteArray* buffer;
+  qint32* size;
   QHostAddress server_addr;
   quint16 server_port;
 

@@ -2,7 +2,7 @@
 #define __NETWORK_CLIENT__
 
 #include <QObject>
-#include <QUdpSocket>
+#include <QTcpSocket>
 #include <QVector>
 #include <QtGui>
 #include <QLabel>
@@ -29,11 +29,15 @@ public:
   GUI gui;
 signals:
   void frameReceived();
+  void dataReceived(QTcpSocket* socket, QByteArray data);
 public slots:
   void refreshWindow();
   void readyRead();
+  void handleData(QTcpSocket* socket, QByteArray data);
 private:
-  QUdpSocket *socket;
+  QTcpSocket* socket;
+  QByteArray* buffer;
+  qint32* size;
   QHostAddress server_addr;
   quint16 server_port;
 };

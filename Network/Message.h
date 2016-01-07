@@ -1,9 +1,11 @@
-#ifndef __NETWORK__
-#define __NETWORK__
+#ifndef __NETWORK_MESSAGE__
+#define __NETWORK_MESSAGE__
 
+#include <iostream>
 #include <string>
 #include <QVector>
 #include <QHostAddress>
+#include <QTcpSocket>
 #include <QDataStream>
 #include "Utilities/RGBColor.h"
 
@@ -24,6 +26,18 @@ struct Register {
 };
 
 };
+
+struct Buffer {
+  QByteArray data;
+  int size;
+  bool has_size;
+};
+
+qint32 ArrayToInt(QByteArray source);
+QByteArray IntToArray(qint32 source);
+
+QByteArray readMessage(QTcpSocket* socket, QByteArray* buffer, qint32* s);
+void writeMessage(QTcpSocket* socket, QByteArray& data);
 
 QDataStream &operator<<(QDataStream& out, const WhiteNetwork::Message& m);
 QDataStream &operator>>(QDataStream& in, WhiteNetwork::Message& m);

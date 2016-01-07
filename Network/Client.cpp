@@ -7,14 +7,19 @@
 
 Client::Client(QObject *parent) : QObject(parent)
 {
-  socket = new QUdpSocket(this);
-  socket->bind(QHostAddress::LocalHost, 1235);
-
-  connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-  connect(this, SIGNAL(frameReceived()), this, SLOT(refreshWindow()));
+  socket = new QTcpSocket(this);
+  buffer = new QByteArray();
+  size = new qint32(0);
 
   server_addr = QHostAddress::LocalHost;
   server_port = 1234;
+
+  socket->connectToHost(server_addr, server_port);
+
+  connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+  connect(this, SIGNAL(frameReceived()), this, SLOT(refreshWindow()));
+  connect(this, SIGNAL(dataReceived(QTcpSocket*, QByteArray)),
+    this, SLOT(handleData(QTcpSocket*, QByteArray)));
 }
 
 void Client::setup() {
@@ -61,39 +66,51 @@ void Client::registerSelf()
 {
   QByteArray data;
   QDataStream ds(&data, QIODevice::ReadWrite);
-  WhiteNetwork::Register reg = {QHostAddress::LocalHost, 1235};
-  ds << WhiteNetwork::Message::RegisterClient << reg;
-  socket->writeDatagram(data, server_addr, server_port);
+  ds << WhiteNetwork::Message::RegisterClient;
+  writeMessage(socket, data);
+}
+
+void Client::handleData(QTcpSocket * socket, QByteArray data)
+{
+  QDataStream ds(&data, QIODevice::ReadWrite);
+
+  WhiteNetwork::Message type;
+  ds >> type;
+
+  if(type == WhiteNetwork::Message::PixelsData) {
+    //std::cout << "Pixels Data\n";
+    receivePixels(ds);
+  }
+  else if(type == WhiteNetwork::Message::FrameSent) {
+    std::cout << "Frame Sent\n";
+    emit frameReceived();
+  }
+  else if(type == WhiteNetwork::Message::Setup) {
+    setup();
+  }
 }
 
 void Client::readyRead()
 {
-  while(socket->hasPendingDatagrams()) {
-    QByteArray buffer;
-    buffer.resize(socket->pendingDatagramSize());
-
-    QHostAddress sender = server_addr;
-    quint16 senderPort = server_port;
-
-    socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
-
-    WhiteNetwork::Message type;
-    QDataStream ds(&buffer, QIODevice::ReadWrite);
-    ds >> type;
-
-    //qDebug() << "Message from: " << sender.toString();
-    //qDebug() << "Message port: " << senderPort;
-
-    if(type == WhiteNetwork::Message::PixelsData) {
-      receivePixels(ds);
+  qint32 s = *size;
+  while(socket->bytesAvailable() > 0) {
+    buffer->append(socket->readAll());
+    while((s == 0 && buffer->size() >= 4) || (s > 0 && buffer->size() >= s)) //While can process data, process it
+    {
+      if(s == 0 && buffer->size() >= 4) //if size of data has received completely, then store it on our global variable
+      {
+        s = ArrayToInt(buffer->mid(0, 4));
+        *size = s;
+        buffer->remove(0, 4);
+      }
+      if(s > 0 && buffer->size() >= s) // If data has received completely, then emit our SIGNAL with the data
+      {
+        QByteArray data = buffer->mid(0, s);
+        buffer->remove(0, s);
+        s = 0;
+        *size = s;
+        emit dataReceived(socket, data);
+      }
     }
-    else if(type == WhiteNetwork::Message::FrameSent) {
-      std::cout << "Frame Sent\n";
-      emit frameReceived();
-    }
-    else if(type == WhiteNetwork::Message::Setup) {
-      setup();
-    }
-
   }
 }
