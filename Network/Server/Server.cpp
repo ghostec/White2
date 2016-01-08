@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <chrono>
 #include <QVector>
 #include <QDataStream>
 #include "Network/Message.h"
@@ -46,6 +48,13 @@ void Server::sendJob(QTcpSocket* socket)
   writeMessage(socket, data);
 }
 
+void Server::sendJobs()
+{
+  for(const auto socket : workers_sockets) {
+    sendJob(socket);
+  }
+}
+
 void Server::sendFrame()
 {
   int start = 0;
@@ -86,6 +95,8 @@ void Server::collectResult(QDataStream& ds)
 
   received_pixels += (end - start);
   if(received_pixels >= vres * hres) {
+    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
     sendFrame();
   }
 }
@@ -109,9 +120,11 @@ void Server::handleData(QTcpSocket* socket, QByteArray data) {
   if(type == WhiteNetwork::Message::RegisterClient) {
     client_socket = socket;
     qDebug() << "Client";
+    start_time = std::chrono::system_clock::now();
+    sendJobs();
   }
   else if(type == WhiteNetwork::Message::RegisterWorker) {
-    sendJob(socket);
+    workers_sockets.push_back(socket);
     qDebug() << "Worker";
   }
   else if(type == WhiteNetwork::Message::PixelsData) {

@@ -20,6 +20,8 @@ Worker::Worker(QHostAddress server_addr, quint16 server_port, QObject *parent) :
   connect(this, SIGNAL(dataReceived(QTcpSocket*, QByteArray)),
     this, SLOT(handleData(QTcpSocket*, QByteArray)));
 
+  renderer.camera.setNWorkers(2);
+
   id = 0;
 }
 

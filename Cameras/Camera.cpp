@@ -7,6 +7,10 @@ Camera::Camera() {
   n_workers = 8;
 }
 
+void Camera::setNWorkers(int _n_workers) {
+  n_workers = _n_workers;
+}
+
 void Camera::render(World& w, int by, int ey)
 {
   std::chrono::time_point<std::chrono::system_clock> start, end;

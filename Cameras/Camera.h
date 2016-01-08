@@ -12,6 +12,7 @@ class Camera {
     Camera();
     void render(World& w, int by, int ey);
     void setCameraWorker(CameraWorker* _worker);
+    void setNWorkers(int _n_workers);
 };
 
 #endif
