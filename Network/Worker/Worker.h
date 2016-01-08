@@ -5,7 +5,8 @@
 #include <QTcpSocket>
 #include <QVector>
 #include "Utilities/RGBColor.h"
-#include "Message.h"
+#include "Network/Message.h"
+#include "World/Renderer.h"
 
 class Worker : public QObject
 {
@@ -26,9 +27,10 @@ private:
   QByteArray* buffer;
   qint32* size;
 
-  QVector<RGBColor> canvas;
   int vres, hres;
   int id;
+
+  Renderer renderer;
 };
 
 #endif

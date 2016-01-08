@@ -3,6 +3,7 @@ project(World)
 set(WorldFiles
   World.cpp World.h
   ViewPlane.cpp ViewPlane.h
+  Renderer.cpp Renderer.h
 )
 
 add_library(World ${WorldFiles})

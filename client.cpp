@@ -3,7 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <memory>
-#include "Network/Client.h"
+#include "Network/Client/Client.h"
 
 inline double clamp(double x) { return x<0 ? 0 : x>1 ? 1 : x; }
 inline int toInt(double x) { return int(pow(clamp(x), 1 / 2.2) * 255 + .5); }

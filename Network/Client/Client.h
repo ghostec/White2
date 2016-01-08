@@ -8,7 +8,7 @@
 #include <QLabel>
 #include <QImage>
 #include "Utilities/RGBColor.h"
-#include "Message.h"
+#include "Network/Message.h"
 
 struct GUI {
   QWidget window;

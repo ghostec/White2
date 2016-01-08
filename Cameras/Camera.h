@@ -10,7 +10,7 @@ class Camera {
     int n_workers;
 	public:
     Camera();
-    void render(World& w);
+    void render(World& w, int by, int ey);
     void setCameraWorker(CameraWorker* _worker);
 };
 

@@ -1,22 +1,30 @@
 cmake_minimum_required(VERSION 2.8)
-project(Worker)
+project(WhiteWorker)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
 include_directories(./)
 
 add_subdirectory(Utilities)
+add_subdirectory(World)
+add_subdirectory(Tracers)
+add_subdirectory(GeometricObjects)
+add_subdirectory(Samplers)
+add_subdirectory(Cameras)
+add_subdirectory(BRDFs)
+add_subdirectory(Lights)
+add_subdirectory(Materials)
 add_subdirectory(Network)
 
-set(LIBRARIES Utilities Network)
+set(LIBRARIES Utilities Tracers GeometricObjects Samplers Cameras BRDFs Lights Materials World Network)
 
 FIND_PACKAGE(Threads REQUIRED)
 
-add_executable(Worker worker.cpp)
+add_executable(WhiteWorker worker.cpp)
 
 find_package(Qt5Core)
 find_package(Qt5Network)
 
-target_link_libraries(Worker ${LIBRARIES} Qt5::Core Qt5::Network)
+target_link_libraries(WhiteWorker ${LIBRARIES} Qt5::Core Qt5::Network)
 
-set_property(TARGET Worker ${LIBRARIES} PROPERTY CXX_STANDARD 11)
+set_property(TARGET WhiteWorker ${LIBRARIES} PROPERTY CXX_STANDARD 11)

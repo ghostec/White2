@@ -2,8 +2,10 @@
 #include <iostream>
 #include <QVector>
 #include <QDataStream>
-#include "Message.h"
+#include "Network/Message.h"
 #include "Client.h"
+#include <chrono>
+#include <thread>
 
 Client::Client(QHostAddress server_addr, quint16 server_port, QObject *parent) : QObject(parent)
 {

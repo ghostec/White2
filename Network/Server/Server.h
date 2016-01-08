@@ -9,7 +9,7 @@
 #include <QHash>
 #include <QVector>
 #include "Utilities/RGBColor.h"
-#include "Message.h"
+#include "Network/Message.h"
 
 class Server : public QObject
 {

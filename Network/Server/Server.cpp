@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QVector>
 #include <QDataStream>
-#include "Message.h"
+#include "Network/Message.h"
 #include "Server.h"
 
 Server::Server(QHostAddress addr, quint16 port, QObject *parent) : QObject(parent)
@@ -15,6 +15,7 @@ Server::Server(QHostAddress addr, quint16 port, QObject *parent) : QObject(paren
 
   vres = hres = 600;
   frame.resize(vres * hres);
+  frame.fill(RGBColor(1.0, 0.0, 0.0));
 
   if(!server->listen(addr, port))
   {
@@ -26,7 +27,7 @@ Server::Server(QHostAddress addr, quint16 port, QObject *parent) : QObject(paren
   }
 
   cur_y = 0;
-  step = 100;
+  step = 300;
   received_pixels = 0;
 }
 
@@ -34,6 +35,7 @@ void Server::sendJob(QTcpSocket* socket)
 {
   // mutexes
   if(cur_y >= vres) return;
+  qDebug() << "Send Job";
 
   WhiteNetwork::Job job = { cur_y, cur_y + step };
   cur_y += step;
@@ -49,13 +51,6 @@ void Server::sendFrame()
   int start = 0;
   int k = 0;
   int n_pixels = vres*hres;
-  
-  frame[1] = RGBColor(1);
-  frame[2] = RGBColor(1);
-  frame[3] = RGBColor(1);
-  frame[4] = RGBColor(1);
-  frame[5] = RGBColor(1);
-  frame[6] = RGBColor(1);
 
   while(k < n_pixels) {
     QByteArray _data;
@@ -81,7 +76,7 @@ void Server::collectResult(QDataStream& ds)
 {
   int start, end;
   ds >> start >> end;
-  received_pixels += (end - start);
+  
   // mutexes
 
   // STL insert/copy
@@ -89,6 +84,7 @@ void Server::collectResult(QDataStream& ds)
     ds >> frame[i];
   }
 
+  received_pixels += (end - start);
   if(received_pixels >= vres * hres) {
     sendFrame();
   }
@@ -112,9 +108,11 @@ void Server::handleData(QTcpSocket* socket, QByteArray data) {
 
   if(type == WhiteNetwork::Message::RegisterClient) {
     client_socket = socket;
+    qDebug() << "Client";
   }
   else if(type == WhiteNetwork::Message::RegisterWorker) {
     sendJob(socket);
+    qDebug() << "Worker";
   }
   else if(type == WhiteNetwork::Message::PixelsData) {
     collectResult(ds);

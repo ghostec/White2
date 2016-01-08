@@ -6,7 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <memory>
-#include "Network/Worker.h"
+#include "Network/Worker/Worker.h"
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);

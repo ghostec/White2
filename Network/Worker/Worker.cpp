@@ -5,7 +5,7 @@
 #include <QtGui>
 #include <QLabel>
 #include <QImage>
-#include "Message.h"
+#include "Network/Message.h"
 #include "Worker.h"
 
 Worker::Worker(QHostAddress server_addr, quint16 server_port, QObject *parent) : QObject(parent)
@@ -30,8 +30,10 @@ void Worker::setup() {
 
 void Worker::work(WhiteNetwork::Job job)
 {
-  canvas.resize(hres*(job.ey - job.by));
+  renderer.render(job.by, job.ey);
+  //canvas.resize(hres*(job.ey - job.by));
   sendResult(job);
+  renderer.world.vp.saveImage();
 }
 
 void Worker::sendResult(WhiteNetwork::Job job)
@@ -45,7 +47,7 @@ void Worker::sendResult(WhiteNetwork::Job job)
     QByteArray _data;
     QDataStream _ds(&_data, QIODevice::ReadWrite);
     while(_data.size() < 500 && k < n_pixels) {
-      _ds << canvas[k++];
+      _ds << renderer.world.vp.canvas[offset + k++];
     }
     QByteArray data;
     QDataStream ds(&data, QIODevice::ReadWrite);
