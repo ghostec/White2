@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include "Utilities/Math.h"
 #include "Sampler.h"
 

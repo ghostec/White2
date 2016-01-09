@@ -29,7 +29,7 @@ Server::Server(QHostAddress addr, quint16 port, QObject *parent) : QObject(paren
   }
 
   cur_y = 0;
-  step = 300;
+  step = 100;
   received_pixels = 0;
 }
 
@@ -84,14 +84,14 @@ void Server::sendFrame()
 void Server::collectResult(QDataStream& ds)
 {
   int start, end;
-  ds >> start >> end;
+  ds >> start;
+  end = start;
   
   // mutexes
 
+    
   // STL insert/copy
-  for(int i = start; i < end; i++) {
-    ds >> frame[i];
-  }
+  while(!ds.atEnd()) ds >> frame[end++];
 
   received_pixels += (end - start);
   if(received_pixels >= vres * hres) {

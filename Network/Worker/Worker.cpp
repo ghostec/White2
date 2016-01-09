@@ -20,7 +20,7 @@ Worker::Worker(QHostAddress server_addr, quint16 server_port, QObject *parent) :
   connect(this, SIGNAL(dataReceived(QTcpSocket*, QByteArray)),
     this, SLOT(handleData(QTcpSocket*, QByteArray)));
 
-  renderer.camera.setNWorkers(2);
+  renderer.camera.setNWorkers(8);
 
   id = 0;
 }
@@ -46,15 +46,12 @@ void Worker::sendResult(WhiteNetwork::Job job)
   int n_pixels = (job.ey - job.by)*hres;
 
   while(k < n_pixels) {
-    QByteArray _data;
-    QDataStream _ds(&_data, QIODevice::ReadWrite);
-    while(_data.size() < 500 && k < n_pixels) {
-      _ds << renderer.world.vp.canvas[offset + k++];
-    }
     QByteArray data;
     QDataStream ds(&data, QIODevice::ReadWrite);
-    ds << WhiteNetwork::Message::PixelsData << start << offset + k;
-    ds.writeRawData(_data.data(), _data.size());
+    ds << WhiteNetwork::Message::PixelsData << start;
+    while(data.size() < 60000 && k < n_pixels) {
+      ds << renderer.world.vp.canvas[offset + k++];
+    }
     start = offset + k;
     writeMessage(socket, data);
   }

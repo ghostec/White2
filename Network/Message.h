@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <QVector>
 #include <QHostAddress>
 #include <QTcpSocket>
@@ -38,6 +39,8 @@ QByteArray IntToArray(qint32 source);
 
 QByteArray readMessage(QTcpSocket* socket, QByteArray* buffer, qint32* s);
 void writeMessage(QTcpSocket* socket, QByteArray& data);
+void writeMessage(QTcpSocket* socket, QByteArray& data1, QByteArray& data2);
+
 
 QDataStream &operator<<(QDataStream& out, const WhiteNetwork::Message& m);
 QDataStream &operator>>(QDataStream& in, WhiteNetwork::Message& m);

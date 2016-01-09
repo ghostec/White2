@@ -20,7 +20,7 @@
 World::World(void) : background_color(black), tracer_ptr(nullptr), ambient_light(new Ambient) {}
 
 void World::build(void) {
-  int num_samples = 4;
+  int num_samples = 16;
   vp.setSize(600, 600);
   vp.setPixelSize(1);
   vp.setGamma(1.0);

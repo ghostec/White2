@@ -50,6 +50,14 @@ void writeMessage(QTcpSocket* socket, QByteArray& data)
   socket->waitForBytesWritten();
 }
 
+void writeMessage(QTcpSocket* socket, QByteArray& data1, QByteArray& data2)
+{
+  socket->write(IntToArray(data1.size() + data2.size()));
+  socket->write(data1);
+  socket->write(data2);
+  socket->waitForBytesWritten();
+}
+
 QDataStream &operator<<(QDataStream& out, const WhiteNetwork::Message& m) {
   out << (quint32)m;
   return out;

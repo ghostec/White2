@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 
   std::thread t(GUI, argc, argv, std::ref(r.world));
 
-  r.render(100, 200);
+  r.render(0, 600);
 
   t.join();
 

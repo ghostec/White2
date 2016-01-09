@@ -41,7 +41,7 @@ void Camera::render(World& w, int by, int ey)
 
   end = std::chrono::system_clock::now();
 
-  //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
   //w.vp.saveImage();
 }

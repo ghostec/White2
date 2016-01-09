@@ -8,7 +8,7 @@ elseif(target STREQUAL "client")
   set(ENTITY Client)
 elseif(target STREQUAL "worker")
   add_subdirectory(Worker)
-  set(ENTITY Worker World)
+  set(ENTITY Worker)
 endif()
 
 set(NetworkFiles
