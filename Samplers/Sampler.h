@@ -2,14 +2,14 @@
 #define __SAMPLERS__
 
 #include <vector>
-#include <mutex>
-#include <condition_variable>
 #include "Utilities/Point2D.h"
 #include "Utilities/Point3D.h"
 
 class Sampler {
 	public:
     Sampler(int _num_samples);
+    Sampler(const Sampler& s);
+    virtual Sampler* clone() const = 0;
     virtual void generate_samples(void) = 0;
     void mapSamplesToHemisphere(const float e);
     int get_num_samples() const;
@@ -27,8 +27,6 @@ class Sampler {
     std::vector<int> shuffled_indices;
     int count;
     int jump;
-    std::mutex m;
-    std::condition_variable c;
 };
 
 #endif

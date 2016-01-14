@@ -9,10 +9,10 @@ Tracer::~Tracer(void) {
 		world_ptr = NULL;
 }
 
-RGBColor Tracer::trace_ray(const Ray& ray) const {
+RGBColor Tracer::trace_ray(const int wid, const Ray& ray) const {
 	return black;
 }
 
-RGBColor Tracer::trace_ray(const Ray ray, const int depth) const {
+RGBColor Tracer::trace_ray(const int wid, const Ray ray, const int depth) const {
   return black;
 }

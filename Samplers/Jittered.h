@@ -8,6 +8,8 @@
 class Jittered : public Sampler {
 	public:
     Jittered(int _num_samples);
+    Jittered(const Jittered& j);
+    virtual Sampler* clone() const;
     virtual void generate_samples(void);
 };
 

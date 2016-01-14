@@ -2,6 +2,7 @@
 #define __CAMERAS_CAMERAWORKER__
 
 #include "World/World.h"
+#include "World/Settings.h"
 #include "Utilities/Point3D.h"
 #include "Utilities/Vector3D.h"
 #include "Utilities/RGBColor.h"
@@ -15,7 +16,7 @@ class CameraWorker {
     CameraWorker();
     CameraWorker(const CameraWorker& _c);
     void computeUvw();
-    virtual void render(World& w, int o_y, int e_y) = 0;
+    virtual void render(int wid, Settings& s, World& w, int o_y, int e_y) = 0;
     virtual CameraWorker* clone() const = 0;
     const Point3D getEye() const;
     const Point3D getLookat() const;

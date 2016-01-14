@@ -3,6 +3,7 @@
 
 #include "Cameras/Camera.h"
 #include "World.h"
+#include "Settings.h"
 
 class Renderer {
 public:
@@ -10,7 +11,7 @@ public:
   void render(int by, int ey);
   World world;
   Camera camera;
-  // ViewPlane
+  Settings settings;
 };
 
 #endif

@@ -8,7 +8,7 @@ class MultipleObjects: public Tracer {
 		MultipleObjects(void);
 		MultipleObjects(World* _worldPtr);
 		virtual ~MultipleObjects(void);
-		virtual RGBColor trace_ray(const Ray& ray) const;
+		virtual RGBColor trace_ray(const int wid, const Ray& ray) const;
 };
 
 #endif

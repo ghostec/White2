@@ -10,16 +10,11 @@ class ViewPlane {
   public:
     int hres, vres;
     float s, gamma, inv_gamma;
-    int num_samples;
-    std::unique_ptr<Sampler> sampler_ptr;
     std::vector<RGBColor> canvas;
 
-    void setNumSamples(int _num_samples);
     void setSize(int _hres, int _vres);
     void setPixelSize(float _s);
     void setGamma(float _gamma);
-    void setSampler(std::unique_ptr<Sampler> sp);
-    void setSamples(const int num_samples);  
     void saveImage();
 };
 

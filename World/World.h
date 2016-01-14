@@ -8,6 +8,7 @@
 #include "Tracers/Tracer.h"
 #include "Lights/Light.h"
 #include "ViewPlane.h"
+#include "Settings.h"
 
 class World {
   public:
@@ -19,7 +20,7 @@ class World {
     std::vector<Light*> lights;
 
     World(void);
-    void build(void);
+    void build(const Settings& s);
     void add_object(GeometricObject* object_ptr);
     void addLight(Light* light_ptr);
     ShadeRec hit_bare_bones_objects(const Ray& ray);

@@ -8,6 +8,16 @@ Sampler::Sampler(int _num_samples) : num_samples(_num_samples), num_sets(83), co
   setup_shuffled_indices();
 }
 
+Sampler::Sampler(const Sampler& s) :
+  num_samples(s.num_samples),
+  num_sets(s.num_sets),
+  samples(s.samples),
+  hemisphere_samples(s.hemisphere_samples),
+  shuffled_indices(s.shuffled_indices),
+  // shuffle indices
+  count(0), jump(0)
+{}
+
 void Sampler::mapSamplesToHemisphere(const float e)
 {
   int size = samples.size();

@@ -7,6 +7,12 @@ Jittered::Jittered(int _num_samples) : Sampler(_num_samples) {
   generate_samples();
 }
 
+Jittered::Jittered(const Jittered& j) : Sampler(j) {}
+
+Sampler* Jittered::clone() const {
+  return new Jittered(*this);
+}
+
 void Jittered::generate_samples(void) {
   auto n = static_cast<int>(std::sqrt(static_cast<float>(num_samples)));
   for(auto p = 0; p < num_sets; p++) {
