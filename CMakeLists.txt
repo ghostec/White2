@@ -8,6 +8,8 @@ endif()
 
 if(${target} STREQUAL "gui")
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeGUI.txt)
+elseif(target STREQUAL "nogui")
+  include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeNOGUI.txt)
 elseif(target STREQUAL "server")
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeServer.txt)
 elseif(target STREQUAL "client")
