@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QCoreApplication>
 #include <QtGui>
 #include <QLabel>
 #include <QImage>
@@ -9,7 +9,7 @@
 #include "Network/Server/Server.h"
 
 int main(int argc, char *argv[]) {
-  QApplication app(argc, argv);
-  Server server(QHostAddress("192.168.2.118"), 1234);
+  QCoreApplication app(argc, argv);
+  Server server(QHostAddress("54.207.16.139"), 1234);
   return app.exec();
 }

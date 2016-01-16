@@ -9,4 +9,4 @@ set(WorldFiles
 
 add_library(World ${WorldFiles})
 
-target_link_libraries(World Tracers GeometricObjects Samplers Lights Materials)
+target_link_libraries(World Tracers GeometricObjects Samplers Lights Materials Cameras)

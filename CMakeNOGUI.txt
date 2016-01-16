@@ -21,6 +21,6 @@ FIND_PACKAGE(Threads REQUIRED)
 
 add_executable(White main_nogui.cpp)
 
-target_link_libraries(White ${LIBRARIES})
+target_link_libraries(White pthread ${LIBRARIES})
 
 set_property(TARGET White ${LIBRARIES} PROPERTY CXX_STANDARD 11)

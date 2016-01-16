@@ -2,7 +2,7 @@
 #include "Renderer.h"
 
 Renderer::Renderer() : world(), camera() {
-  settings.setNWorkers(8);
+  settings.setNWorkers(16);
 
   world.build(settings);
 

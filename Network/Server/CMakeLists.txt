@@ -11,4 +11,4 @@ find_package(Qt5Network)
 
 set_target_properties(Server PROPERTIES AUTOMOC TRUE)
 
-target_link_libraries(Server Qt5::Widgets Qt5::Network)
+target_link_libraries(Server Network Qt5::Widgets Qt5::Network)
