@@ -11,4 +11,4 @@ find_package(Qt5Network)
 
 set_target_properties(Worker PROPERTIES AUTOMOC TRUE)
 
-target_link_libraries(Worker World Qt5::Widgets Qt5::Network)
+target_link_libraries(Worker Network World Qt5::Widgets Qt5::Network)

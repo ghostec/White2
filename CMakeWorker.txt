@@ -25,6 +25,6 @@ add_executable(WhiteWorker worker.cpp)
 find_package(Qt5Core)
 find_package(Qt5Network)
 
-target_link_libraries(WhiteWorker ${LIBRARIES} Qt5::Core Qt5::Network)
+target_link_libraries(WhiteWorker pthread ${LIBRARIES} Qt5::Core Qt5::Network)
 
 set_property(TARGET WhiteWorker ${LIBRARIES} PROPERTY CXX_STANDARD 11)
