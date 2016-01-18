@@ -9,7 +9,7 @@ public:
 	MultiJittered(const MultiJittered& mj);
   virtual MultiJittered* clone(void) const;
 private:
-  virtual void generate_samples(void);
+  virtual void generateSamples(void);
 };
 
 #endif

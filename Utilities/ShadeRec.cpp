@@ -10,7 +10,6 @@ ShadeRec::ShadeRec(World& wr)
   local_hit_point(),
   normal(),
   ray(),
-  dir(),
   color(black),
   t(0.0)
 {}
@@ -24,7 +23,6 @@ ShadeRec::ShadeRec(const ShadeRec& sr)
   local_hit_point(sr.local_hit_point),
   normal(sr.normal),
   ray(sr.ray),
-  dir(sr.dir),
   color(sr.color),
   t(sr.t)
 {}

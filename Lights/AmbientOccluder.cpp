@@ -7,7 +7,7 @@
 #include "AmbientOccluder.h"
 
 AmbientOccluder::AmbientOccluder(const Settings& s) : Light(), ls(1.0), color(1.0), min_amount(0.25) {
-  auto sampler_ptr = new MultiJittered(64);
+  auto sampler_ptr = new MultiJittered(s.n_samples);
   sampler_ptr->mapSamplesToHemisphere(1);
   v_samplers.resize(s.n_workers);
   for(int i = 0; i < s.n_workers; i++) {
@@ -53,7 +53,7 @@ void AmbientOccluder::setSampler(Sampler* sampler_ptr)
 Vector3D AmbientOccluder::getDirection(ShadeRec& sr)
 {
   const auto& d = uvw[sr.wid];
-  Point3D sp = v_samplers[sr.wid]->sample_hemisphere();
+  Point3D sp = v_samplers[sr.wid]->sampleHemisphere();
   return sp.x * d.u + sp.y * d.v + sp.z * d.w;
 }
 

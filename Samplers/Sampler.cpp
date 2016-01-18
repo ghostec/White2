@@ -3,25 +3,24 @@
 #include "Utilities/Math.h"
 #include "Sampler.h"
 
-Sampler::Sampler(int _num_samples) : num_samples(_num_samples), num_sets(83), count(0), jump(0) {
-  samples.reserve(num_samples * num_sets);
-  setup_shuffled_indices();
+Sampler::Sampler(int _n_samples) : n_samples(_n_samples), n_sets(83), count(0), jump(0) {
+  samples.reserve(n_samples * n_sets);
+  setupShuffledIndices();
 }
 
 Sampler::Sampler(const Sampler& s) :
-  num_samples(s.num_samples),
-  num_sets(s.num_sets),
+  n_samples(s.n_samples),
+  n_sets(s.n_sets),
   samples(s.samples),
   hemisphere_samples(s.hemisphere_samples),
   shuffled_indices(s.shuffled_indices),
-  // shuffle indices
   count(0), jump(0)
 {}
 
 void Sampler::mapSamplesToHemisphere(const float e)
 {
   int size = samples.size();
-  hemisphere_samples.reserve(num_samples * num_sets);
+  hemisphere_samples.reserve(n_samples * n_sets);
 
   for(int i = 0; i < size; i++) {
     float cos_phi = cos(2.0 * PI * samples[i].x);
@@ -36,49 +35,53 @@ void Sampler::mapSamplesToHemisphere(const float e)
   }
 }
 
-int Sampler::get_num_samples() const {
-  return num_samples;
+int Sampler::getNSamples() const {
+  return n_samples;
 }
 
-void Sampler::set_num_samples(const int _num_samples) {
-  num_samples = _num_samples;
+void Sampler::setNSamples(const int n) {
+  n_samples = n;
+  generateSamples();
+  setupShuffledIndices();
 }
 
-int Sampler::get_num_sets() const {
-  return num_sets;
+int Sampler::getNSets() const {
+  return n_sets;
 }
 
-void Sampler::set_num_sets(const int _num_sets) {
-  num_sets = _num_sets;
+void Sampler::setNSets(const int n) {
+  n_sets = n;
+  generateSamples();
+  setupShuffledIndices();
 }
 
-Point2D Sampler::sample_unit_square(void)
+Point2D Sampler::sampleUnitSquare(void)
 {
-  if(count % num_samples == 0) {
-    jump = (rand_int() % num_sets) * num_samples;
+  if(count % n_samples == 0) {
+    jump = (rand_int() % n_sets) * n_samples;
   }
 
-  return samples[jump + shuffled_indices[jump + count++ % num_samples]];
+  return samples[jump + shuffled_indices[jump + count++ % n_samples]];
 }
 
-Point3D Sampler::sample_hemisphere(void) {
-  if(count % num_samples == 0) {
-    jump = (rand_int() % num_sets) * num_samples;
+Point3D Sampler::sampleHemisphere(void) {
+  if(count % n_samples == 0) {
+    jump = (rand_int() % n_sets) * n_samples;
   }
 
-  return hemisphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
+  return hemisphere_samples[jump + shuffled_indices[jump + count++ % n_samples]];
 }
 
-void Sampler::setup_shuffled_indices(void) {
-  shuffled_indices.reserve(num_samples * num_sets);
+void Sampler::setupShuffledIndices(void) {
+  shuffled_indices.reserve(n_samples * n_sets);
   std::vector<int> indices;
-  indices.reserve(num_samples);
+  indices.reserve(n_samples);
 
-  for(int i = 0; i < num_samples; i++) indices.push_back(i);
+  for(int i = 0; i < n_samples; i++) indices.push_back(i);
 
-  for(int i = 0; i < num_sets; i++) {
+  for(int i = 0; i < n_sets; i++) {
     std::random_shuffle(begin(indices), end(indices));
-    for(int j = 0; j < num_samples; j++) {
+    for(int j = 0; j < n_samples; j++) {
       shuffled_indices.push_back(indices[j]);
     }
   }

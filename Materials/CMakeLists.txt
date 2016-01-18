@@ -2,6 +2,7 @@ project(Materials)
 
 set(MaterialsFiles
   Material.cpp Material.h
+  SolidColor.cpp SolidColor.h
   Matte.cpp Matte.h
   Phong.cpp Phong.h
 )

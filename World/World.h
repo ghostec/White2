@@ -7,6 +7,7 @@
 #include "GeometricObjects/GeometricObject.h"
 #include "Tracers/Tracer.h"
 #include "Lights/Light.h"
+#include "Cameras/Camera.h"
 #include "ViewPlane.h"
 #include "Settings.h"
 
@@ -18,12 +19,12 @@ class World {
     std::unique_ptr<Tracer> tracer_ptr;
     Light* ambient_light;
     std::vector<Light*> lights;
+    Camera* camera;
 
     World(void);
     void build(const Settings& s);
     void add_object(GeometricObject* object_ptr);
     void addLight(Light* light_ptr);
-    ShadeRec hit_bare_bones_objects(const Ray& ray);
     ShadeRec hit_objects(const Ray& ray);
 };
 

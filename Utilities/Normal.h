@@ -6,9 +6,7 @@
 
 class Normal {
 	public:
-
 		double	x, y, z;
-
 	public:
 
 		Normal(void);

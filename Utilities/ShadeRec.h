@@ -20,7 +20,6 @@ class ShadeRec {
 		Point3D local_hit_point;
 		Normal normal;
 		Ray ray;
-    Vector3D dir;
 		RGBColor color;
 		double t;
 

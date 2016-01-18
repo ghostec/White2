@@ -25,14 +25,14 @@ void Pinhole::render(int wid, Settings& s, World& w, int o_y, int e_y)
   auto& canvas = w.vp.canvas;
   int hres = w.vp.hres;
   auto& sampler_ptr = s.v_samplers[wid];
-  auto n_samples = sampler_ptr->get_num_samples();
+  auto n_samples = sampler_ptr->getNSamples();
 
   ray.o = eye;
   for(int r = o_y; r < e_y; r++) {
     for(int c = 0; c < hres; c++) {
       pixel_color = black;
       for(int j = 0; j < n_samples; j++) {
-        sp = sampler_ptr->sample_unit_square();
+        sp = sampler_ptr->sampleUnitSquare();
         pp.x = w.vp.s * (c - 0.5 * w.vp.hres + sp.x);
         pp.y = w.vp.s * (r - 0.5 * w.vp.vres + sp.y);
         ray.d = rayDirection(pp);

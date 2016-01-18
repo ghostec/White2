@@ -8,14 +8,14 @@ Sphere::Sphere(void) : GeometricObject(), center(0.0), radius(1.0) {}
 Sphere::Sphere(Point3D c, double r) : GeometricObject(), center(c), radius(r) {}
 
 Sphere* Sphere::clone(void) const {
-	return (new Sphere(*this));
+	return new Sphere(*this);
 }
 
 Sphere::Sphere(const Sphere& sphere) : GeometricObject(sphere), center(sphere.center), radius(sphere.radius) {}
 
 Sphere& Sphere::operator= (const Sphere& rhs)
 {
-	if (this == &rhs)
+	if(this == &rhs)
 		return (*this);
 
 	GeometricObject::operator= (rhs);
@@ -36,8 +36,9 @@ bool Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 	double c = temp * temp - radius * radius;
 	double disc = b * b - 4.0 * a * c;
 
-	if (disc < 0.0)
-		return(false);
+  if(disc < 0.0) {
+    return false;
+  }
 	else {
 		double e = sqrt(disc);
 		double denom = 2.0 * a;
@@ -47,7 +48,7 @@ bool Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 			tmin = t;
 			sr.normal = (temp + t * ray.d) / radius;
 			sr.local_hit_point = ray.o + t * ray.d;
-			return (true);
+			return true;
 		}
 
 		t = (-b + e) / denom;
@@ -56,11 +57,11 @@ bool Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 			tmin = t;
 			sr.normal   = (temp + t * ray.d) / radius;
 			sr.local_hit_point = ray.o + t * ray.d;
-			return (true);
+			return true;
 		}
 	}
 
-	return (false);
+	return false;
 }
 
 bool Sphere::shadowHit(const Ray& ray, double& tmin) const

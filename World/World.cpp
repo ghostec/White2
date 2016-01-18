@@ -7,14 +7,15 @@
 #include "Utilities/Normal.h"
 #include "Utilities/Ray.h"
 #include "Tracers/RayCast.h"
-#include "Tracers/MultipleObjects.h"
 #include "Samplers/Jittered.h"
 #include "Lights/Ambient.h"
 #include "Lights/AmbientOccluder.h"
 #include "Lights/PointLight.h"
+#include "Materials/SolidColor.h"
 #include "Materials/Matte.h"
 #include "Materials/Phong.h"
 #include "GeometricObjects/Primitives/Sphere.h"
+#include "GeometricObjects/Primitives/SphereWireframe.h"
 #include "GeometricObjects/Primitives/Plane.h"
 #include "World.h"
 
@@ -50,6 +51,15 @@ void World::build(const Settings& s) {
   sphere_ptr->setMaterial(matte_ptr1);
 	add_object(sphere_ptr);
 
+  SolidColor* solidcolor_ptr = new SolidColor;
+  solidcolor_ptr->setColor(0.0, 0.0, 1.0);
+
+  SphereWireframe* sphere_wire_ptr = new SphereWireframe;
+  sphere_wire_ptr->set_center(1, 0.5, 1);
+  sphere_wire_ptr->set_radius(0.5);
+  sphere_wire_ptr->setMaterial(solidcolor_ptr);
+  add_object(sphere_wire_ptr);
+
   Matte* matte_ptr2 = new Matte;
   matte_ptr2->setKa(0.25);
   matte_ptr2->setKd(0.65);
@@ -77,20 +87,6 @@ inline void World::add_object(GeometricObject* object_ptr) {
 void World::addLight(Light * light_ptr)
 {
   lights.push_back(light_ptr);
-}
-
-ShadeRec World::hit_bare_bones_objects(const Ray& ray) {
-	ShadeRec sr(*this);
-	double t, tmin = kMAX_DOUBLE;
-	int num_objects = objects.size();
-	for(int i = 0; i < num_objects; i++) {
-		if(objects[i]->hit(ray, t, sr) && t < tmin) {
-			sr.hit_an_object = true;
-			sr.color = objects[i]->get_color();
-			tmin = t;
-		}
-	}
-	return sr;
 }
 
 ShadeRec World::hit_objects(const Ray& ray)

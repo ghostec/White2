@@ -7,10 +7,13 @@
 class Settings {
 public:
   int n_workers;
+  int n_samples;
+  int vres, hres;
   std::vector<Sampler*> v_samplers;
 
   Settings();
   void setNWorkers(int n);
+  void setNSamples(int n);
   void setSampler(Sampler* sampler_ptr);
 };
 

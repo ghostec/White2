@@ -2,7 +2,6 @@ project(Tracers)
 
 set(TracersFiles
   RayCast.cpp RayCast.h
-  MultipleObjects.cpp MultipleObjects.h
   Tracer.cpp Tracer.h
 )
 

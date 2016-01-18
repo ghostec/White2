@@ -8,7 +8,7 @@
 class Regular : public Sampler {
 	public:
     Regular(int _num_samples);
-    virtual void generate_samples(void);
+    virtual void generateSamples(void);
 };
 
 #endif

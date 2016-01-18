@@ -14,8 +14,7 @@ class Ray {
 		Ray(const Ray& ray);
 		~Ray(void);
 
-		Ray&
-		operator= (const Ray& rhs);
+		Ray& operator= (const Ray& rhs);
 };
 
 #endif

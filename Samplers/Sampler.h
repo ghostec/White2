@@ -7,21 +7,21 @@
 
 class Sampler {
 	public:
-    Sampler(int _num_samples);
+    Sampler(int _n_samples);
     Sampler(const Sampler& s);
     virtual Sampler* clone() const = 0;
-    virtual void generate_samples(void) = 0;
+    virtual void generateSamples(void) = 0;
     void mapSamplesToHemisphere(const float e);
-    int get_num_samples() const;
-    void set_num_samples(const int _num_samples);
-    int get_num_sets() const;
-    void set_num_sets(const int _num_sets);
-    Point2D sample_unit_square(void);
-    Point3D sample_hemisphere(void);
-    void setup_shuffled_indices(void);
+    int getNSamples() const;
+    void setNSamples(const int n);
+    int getNSets() const;
+    void setNSets(const int n);
+    Point2D sampleUnitSquare(void);
+    Point3D sampleHemisphere(void);
+    void setupShuffledIndices(void);
 
   protected:
-    int num_samples, num_sets;
+    int n_samples, n_sets;
     std::vector<Point2D> samples;
     std::vector<Point3D> hemisphere_samples;
     std::vector<int> shuffled_indices;

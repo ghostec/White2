@@ -1,11 +1,12 @@
 #ifndef __CAMERAS_CAMERAWORKER__
 #define __CAMERAS_CAMERAWORKER__
 
-#include "World/World.h"
 #include "World/Settings.h"
 #include "Utilities/Point3D.h"
 #include "Utilities/Vector3D.h"
 #include "Utilities/RGBColor.h"
+
+class World;
 
 class CameraWorker {
   protected:

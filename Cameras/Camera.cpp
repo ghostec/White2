@@ -16,7 +16,7 @@ void Camera::render(Settings& s, World& w, int by, int ey)
   }
   else {
     auto vres = ey - by;
-    auto hres = w.vp.hres;
+    auto hres = s.hres;
     std::vector<std::thread> w_threads;
     w_threads.reserve(s.n_workers);
     int step = vres / s.n_workers;
@@ -39,10 +39,14 @@ void Camera::render(Settings& s, World& w, int by, int ey)
 
   std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
-  w.vp.saveImage();
+  //w.vp.saveImage();
 }
 
 void Camera::setCameraWorker(CameraWorker* _worker)
 {
   worker = _worker;
+}
+
+CameraWorker* Camera::getCameraWorker() {
+  return worker;
 }
